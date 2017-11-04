@@ -10,35 +10,53 @@ import numpy as np
 
 #Defining constants
 dt = 1
-x=150*10**6*np.random.rand(6)+10**8
-y=150*10**6*np.random.rand(6)+10**8
-vx=30000*np.random.rand(6)+10**3
-vy=30000*np.random.rand(6)+10**3
-mass=5*10**28*np.random.rand(6)+4.5*10**27
-radius = [(((3*m)/(densitee_terre * 4 * np.pi))**(1/3))/150 for m in mass]
-w=7.2921159*10**-5*np.random.randn(6)+1.09367*10**-5
 
+class Map():
 
-class map():
+    def __init__(self, objectList, rocket=None):
+        self.objectList = objectList
+        self.rocket = rocket
 
-    def __init__(self):
-        #Constructing the objectList dictionnary
-        self.objectList={}
-        for i in range(CelestialObject.count):
-            self.objectList.update({i:Planet(x[i],y[i],vx[i],vy[i],mass[i],radius[i],w[i])})
+    def getList(self):
+        return self.objectList
 
-    #Step function
+    def getRocket(self):
+        return self.rocket
+
     def Step(self):
-        #Update the acceleration for all objects
-        for objetSpatial in objectList.values():
+
+        #Updating all acceleration:
+        # 1) Update the acceleration for all planets
+        for objetSpatial in self.objectList.values():
             objetSpatial.acceleration(objectList)
 
-        #Update the data of all the objects
-        for objetSpatial in objectList.values():
-            #Actualize the position
-            objetSpatial.actualizeSystem(dt)
+        # 2) Update the acceleration for the rocket
+        if rocket:
+            rocket.acceleration(objectList)
 
-            #If the object is a Planet update the angle
-            if isinstance(planet,Planet):
-                objetSpatial.actualizeAngle(dt)
+        #Update the data of all the objects
+        # 1) For the planets
+        for objetSpatial in objectList.values():
+            objetSpatial.actualizeSystem(dt)
+            objetSpatial.actualizeAngle(dt)
+
+        # 2) For the rocket
+        if rocket:
+            rocket.actualizeSystem(dt)
+
+        #Deal with the collision
+        # 1) For the planets
+        # i) Construct a list of all the tuple of the planets that collided
+        index_collision = []
+        for objectSpatial in self.objectList.values():
+            if (objectSpatial.collision) and (not objectSpatial.index in [ j for i,j in index_collision ]):
+                for index_col in objetSpatial.collision:
+                    index_collision.append(( objetSpatial.index, index_col ))
+
+        # ii) For all the collided planet define a new one and erase the collided ones
+        if index_collision:
+            for i,j in index_collision:
+                #Update the data of the  planet
+                new_radius = (objectList[i].radius**3 + objectList[i].radius**3)**(1/3)
+
 
