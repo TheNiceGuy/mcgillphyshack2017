@@ -8,8 +8,9 @@ Created on Sat Nov  4 10:10:16 2017
 import numpy as np
 from constants import *
 
-id = 0
 class CelestialObject():
+    '''Defining the abstract class celestial object who caracterize all spatial object in the simulation'''
+    count = 0
     def __init__(self, x, y, vx, vy, mass, radius, x0=0, y0=0, ax=0, ay=0, collision=[], init=False):
         self.x = x
         self.y = y
@@ -22,24 +23,30 @@ class CelestialObject():
         self.ay = ay
         self.collision = collision
         self.init = init
-        self.id =id
-        id += 1
+        self.index = CelestialObject.count
+        CelestialObject.count += 1
 
     def distance(self, other_object):
         ''' Compute the distance between the celestial object and an other one (other object)'''
         d = np.sqrt((self.x - other_object.x)**2 + (self.y - other_object.y)**2)
         return d
 
-    def acceleration(self, objectList, dt):
-        ''' Compute the resulting acceleration on the celestial obeject '''
-        ax = 0
-        ay = 0
-        for celest_object in objectList:
-            ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.x - self.x)/self.distance(celest_object))
-            ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.y - self.y)/self.distance(celest_object))
+    def getX(self):
+        return self.x
 
-        self.ax = ax
-        self.ay = ay
+    def getY(self):
+        return self.y
+
+    def getRadius(self):
+        return self.radius
+
+    def acceleration(self, objectList):
+        ''' Compute the resulting acceleration on the celestial obeject '''
+        self.ax = 0
+        self.ay = 0
+        for celest_object in objectList:
+            self.ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.x - self.x)/self.distance(celest_object))
+            self.ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.y - self.y)/self.distance(celest_object))
 
     def actualizeSystem(self, dt):
         ''' Actualize the system data: position, speed and state '''
@@ -82,5 +89,11 @@ class CelestialObject():
             self.x = x_t2
             self.y = y_t2
 
-        def collision(self, objectList):
-            ''' Updates the list collision that contains'''
+    def collision(self, objectList):
+        ''' Updates the list collision that contains the id of all the planets that collide with self'''
+        for celest_object in objectList:
+            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius):
+                self.collision.append(celest_object.count)
+
+if __name__ == "__main__":
+    pass

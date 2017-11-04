@@ -6,4 +6,4 @@ physical constants to be used
 """
 
 #gravitationnal constant
-G = 6,6740831*10**(-11)
+G = 6.6740831*10**(-11)
