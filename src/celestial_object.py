@@ -17,6 +17,7 @@ class CelestialObject():
         self.vx = vx
         self.vy = vy
         self.mass = mass
+        self.radius = radius
         self.x0 = x0
         self.y0 = y0
         self.ax = ax
@@ -95,7 +96,7 @@ class CelestialObject():
     def collision(self, objectList):
         ''' Updates the list collision that contains the id of all the planets that collide with self'''
         for celest_object in objectList:
-            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius) and celest_object is not self:
+            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius) and (celest_object is not self):
                 self.collision.append(celest_object.count)
 
 if __name__ == "__main__":
