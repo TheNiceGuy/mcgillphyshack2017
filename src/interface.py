@@ -193,7 +193,7 @@ class GLWidget(QGLWidget):
             y = planet.getY()
             r = planet.getRadius()
 
-            glCircle(x, y, 1000*r)
+            glCircle(x, y, r)
 
         # TODO: draw the rocket
 
