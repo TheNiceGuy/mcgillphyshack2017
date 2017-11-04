@@ -10,6 +10,7 @@ class Planet(CelestialObject):
 
     def actualizeAngle(self,dt):
         self.angle=self.w*dt+self.angle
+
     def getAngle(self):
         return self.angle
 
