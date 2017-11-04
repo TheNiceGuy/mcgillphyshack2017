@@ -25,6 +25,4 @@ class SteadyPlanet(Planet):
     def  actualizeSystem(self,dt):
         pass
 
-a=SteadyPlanet(1,2,3,4,5,6,7)
-a.actualizeSystem(5)
-print(a.x)
+
