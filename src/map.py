@@ -23,6 +23,12 @@ class Map():
     def getRocket(self):
         return self.rocket
 
+    def getLimitsX(self):
+        return min([ space_object.x for space_object in objectList.values() ]), max([ space_object.x for space_object in objectList.values() ])
+
+    def getLimitsY(self):
+        return min([ space_object.y for space_object in objectList.values() ]), max([ space_object.y for space_object in objectList.values() ])
+
     def Step(self):
 
         #Updating all acceleration:
@@ -57,6 +63,9 @@ class Map():
         if index_collision:
             for i,j in index_collision:
                 #Update the data of the  planet
-                new_radius = (objectList[i].radius**3 + objectList[i].radius**3)**(1/3)
+                objectList[i].radius = (objectList[i].radius**3 + objectList[i].radius**3)**(1/3)
 
+
+                objectList[i].radius  = (objectList[i].mass * objectList[i].vx + objectList[j].mass * objectList[j].vx)/(objectList[j].mass + objectList[j].mass)
+                vy = (planete.mass * planete.vy + Planete.mass * Planete.vy) / (Planete.mass + planete.mass)
 
