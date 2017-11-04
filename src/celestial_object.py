@@ -49,8 +49,8 @@ class CelestialObject():
             if celest_object is self:
                 pass
             else:
-                self.ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.x - self.x)/self.distance(celest_object))
-                self.ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.y - self.y)/self.distance(celest_object))
+                self.ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_object.x - self.x)/self.distance(celest_object))
+                self.ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_object.y - self.y)/self.distance(celest_object))
 
     def actualizeSystem(self, dt):
         ''' Actualize the system data: position, speed and state '''
