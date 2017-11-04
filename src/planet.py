@@ -20,8 +20,8 @@ class Planet(CelestialObject):
         self.radius = (self.radius**3 + other_planet.radius**3)**(1/3)
 
         # The speed
-        self.vx  = (self.mass * objectList[i].vx + objectList[j].mass * objectList[j].vx)/(objectList[j].mass + objectList[i].mass)
-        self.vy  = (self.mass * objectList[i].vy + objectList[j].mass * objectList[j].vy)/(objectList[j].mass + objectList[i].mass)
+        self.vx  = (self.mass * self.vx + other_planet.mass * other_planet.vx)/(other_planet.mass + self.mass)
+        self.vy  = (self.mass * self.vy + other_planet.mass * other_planet.vy)/(other_planet.mass + self.mass)
 
         # The position
         self.x = (self.mass*self.x + other_planet.mass*other_planet.x)/(self.mass + other_planet.mass)
@@ -35,7 +35,7 @@ class Planet(CelestialObject):
         self.y0 = 0
         self.ax = 0
         self.ay = 0
-        self.collision = []
+        self.collisions = []
         self.w = (self.w + other_planet.w)/2
         self.init = False
 

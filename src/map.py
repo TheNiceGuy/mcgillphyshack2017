@@ -12,10 +12,19 @@ import numpy as np
 dt = 500
 
 class Map():
-
     def __init__(self, objectList, rocket=None):
         self.objectList = objectList
         self.rocket = rocket
+
+        self.xlims = (0,0)
+        self.ylims = (0,0)
+
+        print(self.xlims)
+
+        self.xlims  = self.getLimitsX()
+        self.ylims  = self.getLimitsY()
+
+        print(self.xlims)
 
     def getList(self):
         return self.objectList
@@ -24,12 +33,38 @@ class Map():
         return self.rocket
 
     def getLimitsX(self):
-        return min([space_object.x for space_object in self.objectList.values() ]),\
-               max([space_object.x for space_object in self.objectList.values() ])
+        (xmin,xmax) = self.xlims
 
+        mn = min([space_object.x for space_object in self.objectList.values()])
+        mx = max([space_object.x for space_object in self.objectList.values()])
+
+        if xmin == 0 and xmax == 0:
+            return (mn,mx)
+
+        if xmin > mn:
+            mn = xmin
+
+        if xmax < mx:
+            mx = xmax
+
+        return (mn,mx)
+            
     def getLimitsY(self):
-        return min([space_object.y for space_object in self.objectList.values()]),\
-               max([space_object.y for space_object in self.objectList.values() ])
+        (ymin,ymax) = self.ylims
+
+        mn = min([space_object.y for space_object in self.objectList.values()])
+        mx = max([space_object.y for space_object in self.objectList.values()])
+
+        if ymin == 0 and ymax == 0:
+            return (mn,mx)
+
+        if ymin > mn:
+            mn = ymin
+
+        if ymax < mx:
+            mx = ymax
+
+        return (mn,mx)
 
     def Step(self):
         ###########################
@@ -67,8 +102,8 @@ class Map():
         # i) Construct a list of all the tuple of the planets that collided
         index_collision = []
         for objectSpatial in self.objectList.values():
-            if (objectSpatial.collision) and (not objectSpatial.index in [ j for i,j in index_collision ]):
-                for index_col in objetSpatial.collision:
+            if (objectSpatial.collisions) and (not objectSpatial.index in [ j for i,j in index_collision ]):
+                for index_col in objetSpatial.collisions:
                     index_collision.append(( objetSpatial.index, index_col ))
 
         # ii) For all the collided planet define a new one and erase the collided ones
@@ -79,7 +114,7 @@ class Map():
 
         # 2) For the rocket
         if self.rocket:
-            if self.rocket.collision:
+            if self.rocket.collisions:
                 return True
 
 

@@ -22,7 +22,7 @@ class CelestialObject():
         self.y0 = y0
         self.ax = ax
         self.ay = ay
-        self.collision = collision
+        self.collisions = collision
         self.init = init
         self.index = CelestialObject.count
         CelestialObject.count += 1
@@ -96,8 +96,8 @@ class CelestialObject():
     def collision(self, objectList):
         ''' Updates the list collision that contains the id of all the planets that collide with self'''
         for celest_object in objectList.values():
-            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius) and (celest_object is not self):
-                self.collision.append(celest_object.index)
+            if self.distance(celest_object) < (self.radius + celest_object.radius) and (celest_object is not self):
+                self.collisions.append(celest_object.index)
 
 if __name__ == "__main__":
     pass
