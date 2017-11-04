@@ -13,7 +13,7 @@ from map import *
 class Game(object):
     def __init__(self):
         self.__running = False
-        self.__map = Map(getPlan(1000))
+        self.__map = Map(getPlan(8))
 
     def start(self):
         # set the game as running
