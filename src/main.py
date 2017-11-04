@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 
-import numpy as np
-print('yo')
-print("Hello World!")
-print(2+2)
-m=np.zeros((100,100))
-#m[0][0]=1
-for i in range(0,100):
-        for j in range(0,100):
-                    m[i][j]=min(i+1,j+1)/max(i+1,j+1)
-                    print( m )
+import pygame
+import sys
+
+from interface import *
 
 if __name__ == "__main__":
-    print "Hello World"
+    # initialise pygame
+    pygame.init()
+
+    # create the application
+    app = QtGui.QApplication(sys.argv)
+    window = MainWindow()
+
+    # run the application
+    window.start()
+    window.show()
+    app.exec_()
