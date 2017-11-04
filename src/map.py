@@ -117,7 +117,7 @@ class Map():
                 index_collision.append((objectSpatial.index, index_col))
 
         for planet in self.objectList.values():
-            planet.collisions.clear()
+            planet.collisions = []
 
         # ii) For all the collided planet define a new one and erase the collided ones
         if index_collision:
