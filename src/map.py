@@ -40,6 +40,7 @@ class Map():
 
         if xmin == 0 and xmax == 0:
             return (mn,mx)
+        return (xmin,xmax)
 
         if xmin > mn:
             mn = xmin
@@ -57,6 +58,7 @@ class Map():
 
         if ymin == 0 and ymax == 0:
             return (mn,mx)
+        return (ymin,ymax)
 
         if ymin > mn:
             mn = ymin
@@ -115,7 +117,7 @@ class Map():
                 index_collision.append((objectSpatial.index, index_col))
 
         for planet in self.objectList.values():
-            planet.collisions = []
+            planet.collisions.clear()
 
         # ii) For all the collided planet define a new one and erase the collided ones
         if index_collision:
