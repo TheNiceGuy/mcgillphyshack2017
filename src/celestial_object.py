@@ -8,8 +8,8 @@ Created on Sat Nov  4 10:10:16 2017
 import numpy as np
 from constants import *
 
-id = 0
 class CelestialObject():
+    count = 0
     def __init__(self, x, y, vx, vy, mass, radius, x0=0, y0=0, ax=0, ay=0, collision=[], init=False):
         self.x = x
         self.y = y
@@ -22,8 +22,8 @@ class CelestialObject():
         self.ay = ay
         self.collision = collision
         self.init = init
-        self.id =id
-        id += 1
+        self.index = CelestialObject.count
+        CelestialObject.count += 1
 
     def distance(self, other_object):
         ''' Compute the distance between the celestial object and an other one (other object)'''
@@ -86,7 +86,7 @@ class CelestialObject():
         ''' Updates the list collision that contains the id of all the planets that collide with self'''
         for celest_object in objectList:
             if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius):
-                self.collision.append(celest_object.id)
+                self.collision.append(celest_object.count)
 
 if __name__ == "__main__":
     pass
