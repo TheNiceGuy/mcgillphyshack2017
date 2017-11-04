@@ -4,12 +4,9 @@ Created on Sat Nov  4 10:10:48 2017
 
 @author: utilisateur1
 """
-#import sys
-#sys.exit()
-import math, numpy
+import math, numpy, time
 import matplotlib # foor changing the matplotlib.contour behavior
 import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
 
 from constants import *
 
@@ -79,18 +76,19 @@ class Potential(object):
         
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
-        print("axis added")
+        plt.show()
         
     def actualisePlot(self):
         # actualise the plot
-        self.lines.Z = self.potentialMatrix
-        self.coloring.X = self.potentialMatrix
-        plt.show()
-        print("run through the actualisePlot method")
+        self.lines.set_zdata(self.potentialMatrix)
+        self.coloring.set_xdata(self.potentialMatrix)
+        self.potentialFigure.canvas.draw()
+        print("runned through the actualisePlot method")
         
         
             
 if __name__ == "__main__":
+    plt.ion()
     planetTest = TestCelestialObject(5000*10**(4),5000*10**(4),2*10**(30))
     planetTest2 = TestCelestialObject(7000*10**(4),6000*10**(4),4*10**(30))
     planetTest3 = TestCelestialObject(10000*10**(4),15000*10**(4),3.5*10**(30))
@@ -103,6 +101,7 @@ if __name__ == "__main__":
     objectList.append(planetTest4)
     
     potential = Potential(2.0*10**(8),2.0*10**(8), 6000.0*10**(3))
+    
     potentialFigure = plt.figure('3d view')
     
     potential.compute(objectList)
@@ -115,5 +114,15 @@ if __name__ == "__main__":
     objectList.append(planetTest6)
     
     potential.compute(objectList)
+    time.sleep(4)
+    potential.actualisePlot()
+    
+    planetTest7 = TestCelestialObject(6000*10**(4),4500*10**(4),5.3*10**(30))
+    planetTest8 = TestCelestialObject(20000*10**(4),3000*10**(4),33.5*10**(30))
+    objectList.append(planetTest7)
+    objectList.append(planetTest8)
+    
+    potential.compute(objectList)
+    time.sleep(4)
     potential.actualisePlot()
     
