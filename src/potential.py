@@ -4,7 +4,8 @@ Created on Sat Nov  4 10:10:48 2017
 
 @author: utilisateur1
 """
-import matplotlib, math, numpy
+import math, numpy
+import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 from constants import *
@@ -35,8 +36,10 @@ class Potential(object):
         self.x_list = numpy.arange(0.0, self.size + self.delta, self.delta)
         self.y_list = numpy.arange(0.0, self.size + self.delta, self.delta)
         
+        self.x_plot,self.y_plot = numpy.meshgrid(self.x_list, self.y_list)
+        
         # initialising a matrix (numpy) containing the potential in each point of the discretization of space      
-        self.potentialMatrix = numpy.matrix( numpy.zeros( (len(self.x_list),len(self.y_list)) ))
+        self.potentialMatrix = numpy.zeros( (len(self.x_list),len(self.y_list)) )
     
     
     def compute(self, objectList):
@@ -54,21 +57,46 @@ class Potential(object):
                     else:
                         addPotential = -(G/(distance_i))*(objectList[i].m)
                         self.potentialMatrix[iterate_x, iterate_y] = self.potentialMatrix[iterate_x, iterate_y] + addPotential
-                        
-        # we now plot the potential with matplotlib
-        potentialFigure = matplotlib.pyplot.figure()
-        ax = potentialFigure.add_subplot(111, projection='3d')
-        potentialPlot = ax.plot_surface(self.x_list, self.y_list, self.potentialMatrix, rstride=1, cstride=1, shade=False, cmap="spectral", linewidth=0)
-        #potentialFigure.show()
+    
+    def initialisePlot(self, potentialFigure):
+        # we now define the plot for the potential with matplotlib
+        self.potentialFigure = potentialFigure
+        self.potentialFigure.ax = potentialFigure.add_subplot(1, 1,1)
+        #self.potentialFigure.ax.contour(self.x_plot, self.y_plot, self.potentialMatrix)
+        
+        Z=10.0 * (self.x_plot-self.y_plot)
+        self.potentialFigure.ax.contour(self.x_plot, self.y_plot, self.potentialMatrix, colors='k')
+        self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', cmap='spectral')        
+        self.potentialFigure.ax.set_xlabel("x (m)")
+        self.potentialFigure.ax.set_ylabel("y (m)")
+        #self.potentialFigure.ax.set_zlabel("U (J/kg)")
+        #plt.show()
+        
+    def actualisePlot(self):
+        # actualise the plot
+        #potentialFigure.ax.set_data(self.potentialMatrix)
+        plt.show()
+        
+        
             
 if __name__ == "__main__":
     planetTest = TestCelestialObject(5000*10**(4),5000*10**(4),2*10**(30))
     planetTest2 = TestCelestialObject(7000*10**(4),6000*10**(4),4*10**(30))
-    planetTest3 = TestCelestialObject(10000*10**(4),15000*10**(4),6*10**(30))    
+    planetTest3 = TestCelestialObject(10000*10**(4),15000*10**(4),3.5*10**(30))    
+    planetTest3 = TestCelestialObject(15000*10**(4),15000*10**(4),2*10**(30))   
+    planetTest4 = TestCelestialObject(6000*10**(4),12000*10**(4),7*10**(30))   
+    planetTest5 = TestCelestialObject(4000*10**(4),16000*10**(4),4.3*10**(30))
+    planetTest6 = TestCelestialObject(14000*10**(4),7000*10**(4),1.5*10**(30))       
     objectList=[]
     objectList.append(planetTest)
     objectList.append(planetTest2)    
     objectList.append(planetTest3)    
+    objectList.append(planetTest4)
+    objectList.append(planetTest5)
+    objectList.append(planetTest6)
     
     potential = Potential(2.0*10**(8), 6000.0*10**(3))
+    potentialFigure = plt.figure('3d view')
     potential.compute(objectList)
+    potential.initialisePlot(potentialFigure)
+    potential.actualisePlot()
