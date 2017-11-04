@@ -82,5 +82,11 @@ class CelestialObject():
             self.x = x_t2
             self.y = y_t2
 
-        def collision(self, objectList):
-            ''' Updates the list collision that contains'''
+    def collision(self, objectList):
+        ''' Updates the list collision that contains the id of all the planets that collide with self'''
+        for celest_object in objectList:
+            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius):
+                self.collision.append(celest_object.id)
+
+if __name__ == "__main__":
+    pass
