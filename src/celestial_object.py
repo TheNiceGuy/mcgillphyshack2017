@@ -44,9 +44,12 @@ class CelestialObject():
         ''' Compute the resulting acceleration on the celestial obeject '''
         self.ax = 0
         self.ay = 0
-        for celest_object in objectList:
-            self.ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.x - self.x)/self.distance(celest_object))
-            self.ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.y - self.y)/self.distance(celest_object))
+        for celest_object in objectList.values():
+            if celest_object is self:
+                pass
+            else:
+                self.ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.x - self.x)/self.distance(celest_object))
+                self.ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_objects.y - self.y)/self.distance(celest_object))
 
     def actualizeSystem(self, dt):
         ''' Actualize the system data: position, speed and state '''
@@ -92,7 +95,7 @@ class CelestialObject():
     def collision(self, objectList):
         ''' Updates the list collision that contains the id of all the planets that collide with self'''
         for celest_object in objectList:
-            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius):
+            if self.distance(celest_object) < 0.8* (self.radius + celest_object.radius) and celest_object is not self:
                 self.collision.append(celest_object.count)
 
 if __name__ == "__main__":
