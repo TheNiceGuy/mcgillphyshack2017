@@ -102,9 +102,20 @@ class Map():
         # i) Construct a list of all the tuple of the planets that collided
         index_collision = []
         for objectSpatial in self.objectList.values():
-            if (objectSpatial.collisions) and (not objectSpatial.index in [ j for i,j in index_collision ]):
-                for index_col in objetSpatial.collisions:
-                    index_collision.append(( objetSpatial.index, index_col ))
+            if not objectSpatial.collisions:
+                continue
+            
+            for index_col in objectSpatial.collisions:
+                if (objectSpatial.index, index_col) in index_collision:
+                    continue
+
+                if (index_col, objectSpatial.index) in index_collision:
+                    continue
+
+                index_collision.append((objectSpatial.index, index_col))
+
+        for planet in self.objectList.values():
+            planet.collisions = []
 
         # ii) For all the collided planet define a new one and erase the collided ones
         if index_collision:
