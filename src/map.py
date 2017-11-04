@@ -24,10 +24,12 @@ class Map():
         return self.rocket
 
     def getLimitsX(self):
-        return min([ space_object.x for space_object in objectList.values() ]), max([ space_object.x for space_object in objectList.values() ])
+        return min([space_object.x for space_object in self.objectList.values() ]),\
+               max([space_object.x for space_object in self.objectList.values() ])
 
     def getLimitsY(self):
-        return min([ space_object.y for space_object in objectList.values() ]), max([ space_object.y for space_object in objectList.values() ])
+        return min([space_object.y for space_object in self.objectList.values()]),\
+               max([space_object.y for space_object in self.objectList.values() ])
 
     def Step(self):
 
