@@ -33,7 +33,6 @@ class Potential(object):
     def compute(self, objectList, x_min, x_max, y_min, y_max):
         self.x_min = x_min
         self.x_max = x_max
-        print("potential",self.x_min, self.x_max)
         self.y_min = y_min
         self.y_max = y_max
         self.x_list = numpy.arange(x_min-self.delta, x_max+self.delta, self.delta)
