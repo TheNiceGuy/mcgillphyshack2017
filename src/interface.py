@@ -166,7 +166,7 @@ class GLWidget(QGLWidget):
         dy = 0
 
 
-        glClearColor(0, 0.3, 0, 1);
+        glClearColor(0, 0, 0, 1);
 
         if width < height:
             dx = math.floor(height*(self.__width/self.__height)-width)
@@ -193,7 +193,7 @@ class GLWidget(QGLWidget):
             y = planet.getY()
             r = planet.getRadius()
 
-            glCircle(x, y, 1000*r)
+            glCircle(x, y, r)
 
         # TODO: draw the rocket
 
