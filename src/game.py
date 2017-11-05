@@ -15,7 +15,8 @@ from map import *
 class Game(object):
     def __init__(self):
         self.__running = False
-        self.__map = Map(getPlan(4))
+        o,r=getPlan(4)
+        self.__map = Map(o,r)
 
     def start(self):
         # set the game as running
