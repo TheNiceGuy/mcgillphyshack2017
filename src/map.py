@@ -14,6 +14,7 @@ dt = 800
 class Map():
     def __init__(self, objectList, rocket=None):
         self.objectList = objectList
+        print(self.objectList)
         self.rocket = rocket
 
         self.xlims = (0,0)

@@ -28,4 +28,3 @@ def getPlan(count):
         objectList.update({i:planet})
     print(objectList)
     return objectList
-getPlan(1)

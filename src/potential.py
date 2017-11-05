@@ -10,55 +10,6 @@ import matplotlib.pyplot as plt
 
 from constants import *
 
-def main ():
-    plt.ion()
-    planetTest = TestCelestialObject(5000*10**(4),5000*10**(4),2*10**(30))
-    planetTest2 = TestCelestialObject(7000*10**(4),6000*10**(4),4*10**(30))
-    planetTest3 = TestCelestialObject(10000*10**(4),15000*10**(4),3.5*10**(30))
-    planetTest3 = TestCelestialObject(15000*10**(4),15000*10**(4),2*10**(30))
-    planetTest4 = TestCelestialObject(6000*10**(4),12000*10**(4),7*10**(30)) 
-    objectList=[]
-    objectList.append(planetTest)
-    objectList.append(planetTest2)
-    objectList.append(planetTest3)
-    objectList.append(planetTest4)
-    
-    potential = Potential(1500*10**(3))
-    
-    potentialFigure = plt.figure('3d view')
-    
-    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
-    potential.initialisePlot(potentialFigure)
-    potential.actualisePlot()
-    
-    planetTest5 = TestCelestialObject(4000*10**(4),16000*10**(4),4.3*10**(30))
-    planetTest6 = TestCelestialObject(14000*10**(4),7000*10**(4),1.5*10**(30))
-    objectList.append(planetTest5)
-    objectList.append(planetTest6)
-    
-    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
-    potential.actualisePlot()
-    time.sleep(0.01)
-        
-    planetTest7 = TestCelestialObject(6000*10**(4),4500*10**(4),5.3*10**(30))
-    planetTest8 = TestCelestialObject(20000*10**(4),3000*10**(4),33.5*10**(30))
-    objectList.append(planetTest7)
-    objectList.append(planetTest8)
-    
-    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
-    potential.actualisePlot()
-    time.sleep(0.01)
-    
-    
-    planetTest9 = TestCelestialObject(2*10**(7),-4*10**(7),5.3*10**(30))
-    objectList.append(planetTest9)
-    
-    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
-    potential.actualisePlot()
-    time.sleep(20)
-    
-    del potentialFigure
-
 # defining a function that compute the distance between a celestial object (from that class) and a point
 """Definition________________________________________________"""
 def distanceCompute(celestialObject, position_x, position_y):
