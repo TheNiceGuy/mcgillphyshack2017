@@ -5,12 +5,52 @@ Created on Sat Nov  4 10:10:48 2017
 @author: utilisateur1
 """
 import math, numpy, time
-import matplotlib # foor changing the matplotlib.contour behavior
+import matplotlib # for changing the matplotlib.contour behavior
 import matplotlib.pyplot as plt
 
 from constants import *
 
-
+def main ():
+    plt.ion()
+    planetTest = TestCelestialObject(5000*10**(4),5000*10**(4),2*10**(30))
+    planetTest2 = TestCelestialObject(7000*10**(4),6000*10**(4),4*10**(30))
+    planetTest3 = TestCelestialObject(10000*10**(4),15000*10**(4),3.5*10**(30))
+    planetTest3 = TestCelestialObject(15000*10**(4),15000*10**(4),2*10**(30))
+    planetTest4 = TestCelestialObject(6000*10**(4),12000*10**(4),7*10**(30)) 
+    objectList=[]
+    objectList.append(planetTest)
+    objectList.append(planetTest2)
+    objectList.append(planetTest3)
+    objectList.append(planetTest4)
+    
+    potential = Potential(1500*10**(3))
+    
+    potentialFigure = plt.figure('3d view')
+    
+    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
+    potential.initialisePlot(potentialFigure)
+    potential.actualisePlot()
+    
+    planetTest5 = TestCelestialObject(4000*10**(4),16000*10**(4),4.3*10**(30))
+    planetTest6 = TestCelestialObject(14000*10**(4),7000*10**(4),1.5*10**(30))
+    objectList.append(planetTest5)
+    objectList.append(planetTest6)
+    
+    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
+    time.sleep(0.01)
+    potential.actualisePlot()
+    
+    planetTest7 = TestCelestialObject(6000*10**(4),4500*10**(4),5.3*10**(30))
+    planetTest8 = TestCelestialObject(20000*10**(4),3000*10**(4),33.5*10**(30))
+    objectList.append(planetTest7)
+    objectList.append(planetTest8)
+    
+    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
+    time.sleep(0.01)
+    potential.actualisePlot()
+    time.sleep(0.01)
+    
+    del potentialFigure
 
 # defining a function that compute the distance between a celestial object (from that class) and a point
 """Definition________________________________________________"""
@@ -29,23 +69,18 @@ class TestCelestialObject(object):
         print("celestial object class ok")
 
 class Potential(object):
-    def __init__(self, size_x, size_y, delta):
-        # defining the side size of the 2D square region studied (in meters)
-        self.size_x = size_x
-        self.size_y = size_y
-        # step size in position for the computing of the potential
+    def __init__(self, delta):
         self.delta = delta
-        # lists of x and y positions
-        self.x_list = numpy.arange(0.0, self.size_x + self.delta, self.delta)
-        self.y_list = numpy.arange(0.0, self.size_y + self.delta, self.delta)
-
-        self.x_plot, self.y_plot = numpy.meshgrid(self.x_list, self.y_list)
         
-        # initialising a matrix (numpy) containing the potential in each point of the discretization of space      
-        self.potentialMatrix = numpy.zeros( (len(self.x_list),len(self.y_list)) )
-        print("Potential class initialised ok")
-    
-    def compute(self, objectList):
+    def compute(self, objectList, x_min, x_max, y_min, y_max):
+        self.x_min = x_min
+        self.x_max = x_max
+        self.y_min = y_min
+        self.y_max = y_max
+        self.x_list = numpy.arange(x_min-self.delta, x_max+self.delta, self.delta)
+        self.y_list = numpy.arange(y_min-self.delta, y_max+self.delta, self.delta)
+        
+        self.potentialMatrix = numpy.zeros( (len(self.x_list), len(self.y_list)) )
         
         # for each point on the discretization of space: (double for)
         for iterate_x in range(0,len(self.x_list)) :
@@ -69,8 +104,8 @@ class Potential(object):
         print("subplot initialised")
         
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
-        self.coloring =  self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', cmap='spectral')     
-        self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, linewidths=1, colors='k')
+        self.coloring =  self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.x_min, self.x_max, self.y_min, self.y_max], animated=True)     
+        self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, linewidths=1, colors='k', animated=True)
         self.colorbar = plt.colorbar(self.coloring, shrink=0.8, extend='both')
         print("lines and coloring initialised")
         
@@ -80,49 +115,14 @@ class Potential(object):
         
     def actualisePlot(self):
         # actualise the plot
-        self.lines.set_zdata(self.potentialMatrix)
-        self.coloring.set_xdata(self.potentialMatrix)
+        #self.lines.set_zdata(self.potentialMatrix)
+        self.coloring.set_data(self.potentialMatrix)
         self.potentialFigure.canvas.draw()
         print("runned through the actualisePlot method")
         
-        
             
 if __name__ == "__main__":
-    plt.ion()
-    planetTest = TestCelestialObject(5000*10**(4),5000*10**(4),2*10**(30))
-    planetTest2 = TestCelestialObject(7000*10**(4),6000*10**(4),4*10**(30))
-    planetTest3 = TestCelestialObject(10000*10**(4),15000*10**(4),3.5*10**(30))
-    planetTest3 = TestCelestialObject(15000*10**(4),15000*10**(4),2*10**(30))
-    planetTest4 = TestCelestialObject(6000*10**(4),12000*10**(4),7*10**(30)) 
-    objectList=[]
-    objectList.append(planetTest)
-    objectList.append(planetTest2)
-    objectList.append(planetTest3)
-    objectList.append(planetTest4)
+    main()
+        
     
-    potential = Potential(2.0*10**(8),2.0*10**(8), 6000.0*10**(3))
-    
-    potentialFigure = plt.figure('3d view')
-    
-    potential.compute(objectList)
-    potential.initialisePlot(potentialFigure)
-    potential.actualisePlot()
-    
-    planetTest5 = TestCelestialObject(4000*10**(4),16000*10**(4),4.3*10**(30))
-    planetTest6 = TestCelestialObject(14000*10**(4),7000*10**(4),1.5*10**(30))
-    objectList.append(planetTest5)
-    objectList.append(planetTest6)
-    
-    potential.compute(objectList)
-    time.sleep(4)
-    potential.actualisePlot()
-    
-    planetTest7 = TestCelestialObject(6000*10**(4),4500*10**(4),5.3*10**(30))
-    planetTest8 = TestCelestialObject(20000*10**(4),3000*10**(4),33.5*10**(30))
-    objectList.append(planetTest7)
-    objectList.append(planetTest8)
-    
-    potential.compute(objectList)
-    time.sleep(4)
-    potential.actualisePlot()
-    
+        
