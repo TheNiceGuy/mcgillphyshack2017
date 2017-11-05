@@ -12,7 +12,7 @@ from systeme_solaire import *
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
 
-    def __init__(self, vx, vy, mass, radius, Parent_index, theta0, x=0, y=0, grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
+    def __init__(self, mass, radius, Parent_index, theta0, x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
         super().__init__(x, y, vx, vy, mass, radius)
         self.qte_gas = qte_gas
         self.ejection_speed = ejection_speed
@@ -22,6 +22,9 @@ class Rocket(CelestialObject):
         self.propulsion=propulsion
         self.x=objectList[Parent_index].x+objectList[Parent_index].radius*np.cos(theta0)
         self.y=objectList[Parent_index].y+ objectList[Parent_index].radius*np.sin(theta0)
+        self.vx = objectList[Parent_index].w*objectList[Parent_index].radius * np.cos(np.pi/2-theta0)
+        self.vy = objectList[Parent_index].w*objectList[Parent_index].radius * np.sin(np.pi/2-theta0)
+
 
         self.theta0=theta0
     def getGrounded(self):
@@ -32,6 +35,9 @@ class Rocket(CelestialObject):
 
     def setPropulsion(self, propulsion_state):
         self.propulsion = propulsion_state
+
+    def setMass(self,dt):
+        self.mass = self.mass - self.mass_flow*dt
 
     def acceleration(self, objectList):
         '''Compute the acceleration of the rocket in three cases: if it is grounded, if it not grounded and the propulsion is on and if it is not grounded and the propulsion is off'''
@@ -113,3 +119,6 @@ class Rocket(CelestialObject):
                 self.x = x_t2
                 self.y = y_t2
 
+        #If if propulsion is on actualize mass
+        if self.propulsion:
+            self.setMass(dt)
