@@ -287,6 +287,7 @@ class GLWidget(QGLWidget):
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
         glEnable(GL_ALPHA_TEST)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
@@ -299,7 +300,7 @@ class GLWidget(QGLWidget):
         path = self.__map.getRocket().getPath()
         self.__map.getRocket().tex = textureFromFile(path)
 
-        self.__stars = textureFromFile('pictures/stars.png')
+        self.__stars = textureFromFile('pictures/wow.png')
 
 
 
@@ -356,6 +357,8 @@ def textureFromFile(path):
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glAlphaFunc( GL_NOTEQUAL, 0.0 );
+
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 #    texData = [255, 255, 100, 255];
 #    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData)
