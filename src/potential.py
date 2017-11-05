@@ -16,7 +16,7 @@ def distanceCompute(celestialObject, position_x, position_y):
     delta_x = celestialObject.x-position_x
     delta_y = celestialObject.y-position_y
     #print(delta_x**2,delta_y**2)
-    distance = np.sqrt(delta_x**2 + delta_y**2)
+    distance = numpy.sqrt(delta_x**2 + delta_y**2)
     return distance
 """__________________________________________________________________"""
 
