@@ -45,12 +45,12 @@ class Rocket(CelestialObject):
 
     def actualizeAngle(self,dt):
         if self.grounded:
-            self.angle = self.angle + self.parent.w*dt
+            self.theta = self.theta + self.Parent.w*dt
         else:
             if self.vx >= 0:
-                self.angle = np.arctan(self.vx/self.vy)
+                self.theta= np.arctan(self.vx/self.vy)
             elif self.vx < 0:
-                self.angle = np.arctan(self.vx/self.vy) + np.pi
+                self.theta = np.arctan(self.vx/self.vy) + np.pi
 
 
     def acceleration(self, objectList):
@@ -137,7 +137,7 @@ class Rocket(CelestialObject):
             self.setMass(dt)
 
         #Actualize the angle of the rocket
-        self.actualizAngle(dt)
+        self.actualizeAngle(dt)
 
     def collision(self,objectList):
         if not self.grounded:
