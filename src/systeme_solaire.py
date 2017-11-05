@@ -8,7 +8,7 @@ import numpy as np
 
 objectList={}
 #Definition des planètes du système solaire
-objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.981*10**30              ,50*696342000 , 10)})
+objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.981*10**30              ,50*696342000 , 10**-5)})
 objectList.update({1:Planet(46001272000  ,0    ,0              ,58980          ,3.3011*10**23             ,200*2439700  , 20)})
 objectList.update({2:Planet(107476259000 ,0    ,0              ,35260          ,4.8685*10**24             ,200*6051800  , 30)})
 objectList.update({3:Planet(147098079000 ,0    ,0              ,30287          ,5.9736*10**24             ,200*6371008  , 40)})
@@ -17,7 +17,7 @@ objectList.update({3:Planet(147098079000 ,0    ,0              ,30287          ,
 #uranus  = Planet(2734998229000,0    ,0              ,7128           ,8.681 *10**25             ,1000*2559000  , 18)
 #neptune = Planet(4452940833000,0    ,0              ,5479           ,102.43*10**24             ,1000*2462200  , 76)
 
-
 def getPlan(count):
     dt=1
-    return objectList
+    rock=Rocket(2700*1000,10**24,0)
+    return objectList,rock
