@@ -11,7 +11,7 @@ import numpy as np
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
 
-    def __init__(self, mass, radius, Parent_index,Parent, theta0, theta,path2='pictures/pepe.jpg', x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=0.0004, mass_flow=0.00000000000005, propulsion=False):
+    def __init__(self, mass, radius, Parent_index,Parent, theta0, theta,path2='pictures/pepe.png', x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=0.0004, mass_flow=0.00000000000005, propulsion=False):
 
         super().__init__(x, y, vx, vy, mass, radius, path=path2)
         self.qte_gas = qte_gas
