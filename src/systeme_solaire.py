@@ -22,4 +22,3 @@ def getPlan(count):
     return objectList,rock
     print(objectList)
     time.sleep(2)
-
