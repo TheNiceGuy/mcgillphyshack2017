@@ -116,7 +116,7 @@ class MainWindow(QWidget):
 
         self.__count += 1
 
-        if self.__count == 180:
+        if self.__count == 20:
             print("render map")
             (minx,maxx) = self.__game.getMap().getLimitsX()
             (miny,maxy) = self.__game.getMap().getLimitsY()
@@ -249,6 +249,11 @@ class GLWidget(QGLWidget):
             glCircle(x, y, r)
 
         # TODO: draw the rocket
+        x = self.__map.getRocket().getX()
+        y = self.__map.getRocket().getY()
+        r = self.__map.getRocket().getRadius()
+
+        glCircle(x, y, r)
 
         glFlush()
 
@@ -367,6 +372,6 @@ class PlotWidget(FigureCanvasQTAgg):
 
         self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.actualisePlot()
- #       self.__figure.canvas.draw()
+        #self.__figure.canvas.draw()
         self.draw()
 

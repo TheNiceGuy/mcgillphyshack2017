@@ -60,24 +60,20 @@ class Potential(object):
         self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
         
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
-        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.y_min, self.y_max, self.x_min, self.x_max], animated=True)     
-        #self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, linewidths=1, colors='k', extent= [self.x_min, self.x_max, self.y_min, self.y_max], animated=True)
-        self.colorbar = plt.colorbar(self.coloring, shrink=0.8, extend='both')
-        
+        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, cmap='spectral', animated=True, extent= [self.y_min, self.y_max, self.x_min, self.x_max], vmin=-1*10**(11), vmax=0.0)     
+        self.colorbar = self.potentialFigure.colorbar(self.coloring, extend='both')
+                
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
-        plt.title("Gravitationnal potential (J/kg)")
+        self.colorbar.set_label("Gravitationnal potential (J/kg)")
         
     def actualisePlot(self, potentialFigure):
         # actualise the plot
-        #self.lines.set_data(self.potentialMatrix)
-        self.potentialFigure = potentialFigure
-        self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
-        
-        matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
-        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.y_min, self.y_max, self.x_min, self.x_max], animated=True)     
-#        self.potentialFigure.canvas.draw()
-        
+        self.coloring.set_data(self.potentialMatrix)
+        #print(self.potentialMatrix[len(self.potentialMatrix)/2, len(self.potentialMatrix)/2])
+        #self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.y_min, self.y_max, self.x_min, self.x_max], animated=True)     
+        self.potentialFigure.canvas.draw()
+        print(type(self.potentialFigure))
             
 if __name__ == "__main__":
     main()

@@ -24,6 +24,8 @@ class Map():
         self.xlims  = self.getLimitsX()
         self.ylims  = self.getLimitsY()
 
+    def getRocket():
+        return self.rocket
 
     def getList(self):
         return self.objectList
