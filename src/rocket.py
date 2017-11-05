@@ -7,7 +7,6 @@ Created on Sat Nov  4 10:10:16 2017
 from constants import *
 from celestial_object import *
 import numpy as np
-from systeme_solaire import *
 
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
