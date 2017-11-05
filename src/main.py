@@ -6,7 +6,8 @@ import subprocess
 from interface import *
 
 if __name__ == "__main__":
- #   subprocess.call(['sl'])
+<<<<<<< HEAD
+    subprocess.call(['HACKED'])
     # create the application
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()

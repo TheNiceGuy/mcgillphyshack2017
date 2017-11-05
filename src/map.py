@@ -9,7 +9,7 @@ from rocket import*
 import numpy as np
 
 #Defining constants
-dt = 500
+dt = 800
 
 class Map():
     def __init__(self, objectList, rocket=None):
@@ -34,7 +34,8 @@ class Map():
 
     def getLimitsX(self):
         (xmin,xmax) = self.xlims
-
+        
+        print(self.objectList)
         mn = min([space_object.x for space_object in self.objectList.values()])
         mx = max([space_object.x for space_object in self.objectList.values()])
 
@@ -49,7 +50,7 @@ class Map():
             mx = xmax
 
         return (mn,mx)
-            
+
     def getLimitsY(self):
         (ymin,ymax) = self.ylims
 
@@ -105,7 +106,7 @@ class Map():
         for objectSpatial in self.objectList.values():
             if not objectSpatial.collisions:
                 continue
-            
+
             for index_col in objectSpatial.collisions:
                 if (objectSpatial.index, index_col) in index_collision:
                     continue

@@ -89,12 +89,12 @@ class Potential(object):
         self.potentialMatrix = numpy.zeros( (len(self.y_list), len(self.x_list)) )
         
         # for each point on the discretization of space: (double for)
-        for iterate_x in range(0,len(self.x_list)) :
+        for iterate_x in range(len(self.x_list)) :
             position_x = self.x_list[iterate_x]
-            for iterate_y in range(0,len(self.y_list)) :
+            for iterate_y in range(len(self.y_list)) :
                 position_y = self.y_list[iterate_y]
                 # adding the potential from each celestial object contained in objectList
-                for i in range(0, len(objectList)):
+                for i in objectList.keys():
                     distance_i = distanceCompute(objectList[i], position_x, position_y)
                     if distance_i ==0:
                         self.potentialMatrix[-iterate_y, iterate_x] = self.potentialMatrix[-iterate_y+1, iterate_x-1]
