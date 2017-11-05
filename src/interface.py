@@ -248,6 +248,11 @@ class GLWidget(QGLWidget):
             glCircle(x, y, r)
 
         # TODO: draw the rocket
+        x = self.__map.getRocket().getX()
+        y = self.__map.getRocket().getY()
+        r = self.__map.getRocket().getRadius()
+
+        glCircle(x, y, r)
 
         glFlush()
 

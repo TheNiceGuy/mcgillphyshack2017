@@ -24,6 +24,8 @@ class Map():
         self.xlims  = self.getLimitsX()
         self.ylims  = self.getLimitsY()
 
+    def getRocket():
+        return self.rocket
 
     def getList(self):
         return self.objectList
@@ -126,7 +128,7 @@ class Map():
         # 2) For the rocket
         if self.rocket:
             if self.rocket.collisions:
-                print('entered')
                 return True
+        
 
 
