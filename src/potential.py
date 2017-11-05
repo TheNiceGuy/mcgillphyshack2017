@@ -32,14 +32,15 @@ class TestCelestialObject(object):
         print("celestial object class ok")
 
 class Potential(object):
-    def __init__(self, size, delta):
+    def __init__(self, size_x, size_y, delta):
         # defining the side size of the 2D square region studied (in meters)
-        self.size = size
+        self.size_x = size_x
+        self.size_y = size_y
         # step size in position for the computing of the potential
         self.delta = delta
         # lists of x and y positions
-        self.x_list = numpy.arange(0.0, self.size + self.delta, self.delta)
-        self.y_list = numpy.arange(0.0, self.size + self.delta, self.delta)
+        self.x_list = numpy.arange(0.0, self.size_x + self.delta, self.delta)
+        self.y_list = numpy.arange(0.0, self.size_y + self.delta, self.delta)
 
         self.x_plot, self.y_plot = numpy.meshgrid(self.x_list, self.y_list)
         
@@ -73,11 +74,12 @@ class Potential(object):
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
         self.coloring =  self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', cmap='spectral')     
         self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, linewidths=1, colors='k')
-        print("lines initialised")
+        self.colorbar = plt.colorbar(self.coloring, shrink=0.8, extend='both')
+        print("lines and coloring initialised")
         
-        #self.potentialFigure.ax.set_xlabel("x (m)")
-        #self.potentialFigure.ax.set_ylabel("y (m)")
-        #print("axis added")
+        self.potentialFigure.ax.set_xlabel("x (m)")
+        self.potentialFigure.ax.set_ylabel("y (m)")
+        print("axis added")
         
     def actualisePlot(self):
         # actualise the plot
@@ -100,7 +102,7 @@ if __name__ == "__main__":
     objectList.append(planetTest3)
     objectList.append(planetTest4)
     
-    potential = Potential(2.0*10**(8), 6000.0*10**(3))
+    potential = Potential(2.0*10**(8),2.0*10**(8), 6000.0*10**(3))
     potentialFigure = plt.figure('3d view')
     
     potential.compute(objectList)
