@@ -246,6 +246,11 @@ class GLWidget(QGLWidget):
 
         glClearColor(0.0,0.0,0.0,0.0)
 
+        glBindTexture(GL_TEXTURE_2D, self.__stars)
+        glEnable(GL_TEXTURE_2D)
+        glRect(minx, miny, maxx-minx, maxy-miny, z=-1)
+        glDisable(GL_TEXTURE_2D)
+
         # draw the planets
         for planet in self.__map.getList().values():
             x = planet.getX()
@@ -282,6 +287,7 @@ class GLWidget(QGLWidget):
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
         glEnable(GL_ALPHA_TEST)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
@@ -293,6 +299,8 @@ class GLWidget(QGLWidget):
             obj.tex = textureFromFile(path)
         path = self.__map.getRocket().getPath()
         self.__map.getRocket().tex = textureFromFile(path)
+
+        self.__stars = textureFromFile('pictures/wow.png')
 
 
 
@@ -316,7 +324,7 @@ def glCircle(px, py, r):
         glVertex3f(px2, py2, 0.0)
     glEnd()
 
-def glRect(x, y, w, h, rot=0):
+def glRect(x, y, w, h, rot=0, z=0):
     glLoadIdentity()
     glTranslatef(x, y, 0.0);
     glRotatef(360*rot/(22.0/7.0), 0.0, 0.0, 1.0);
@@ -325,13 +333,13 @@ def glRect(x, y, w, h, rot=0):
 
     glBegin(GL_QUADS)
     glTexCoord(0.0, 0.0)
-    glVertex3f(-w/1, -h/1,  0.0)
+    glVertex3f(-w/1, -h/1,  z)
     glTexCoord(1.0, 0.0)
-    glVertex3f( w/1, -h/1,  0.0)
+    glVertex3f( w/1, -h/1,  z)
     glTexCoord(1.0, 1.0)
-    glVertex3f( w/1,  h/1,  0.0)
+    glVertex3f( w/1,  h/1,  z)
     glTexCoord(0.0, 1.0)
-    glVertex3f(-w/1,  h/1,  0.0)
+    glVertex3f(-w/1,  h/1,  z)
     glEnd()
 
 def textureFromFile(path):
@@ -349,6 +357,8 @@ def textureFromFile(path):
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glAlphaFunc( GL_NOTEQUAL, 0.0 );
+
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 #    texData = [255, 255, 100, 255];
 #    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData)
