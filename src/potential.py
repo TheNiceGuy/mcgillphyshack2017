@@ -8,21 +8,6 @@ import numpy, time, math
 import matplotlib # for changing the matplotlib.contour behavior
 import matplotlib.pyplot as plt
 
-from constants import *
-
-def main():
-    objectList={}
-    #Definition des planètes du système solaire
-    objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.981*10**30              ,300*696342000 , 10)})
-    objectList.update({1:Planet(46001272000  ,0    ,0              ,58980          ,3.3011*10**23             ,1000*2439700  , 20)})
-    objectList.update({2:Planet(107476259000 ,0    ,0              ,35260          ,4.8685*10**24             ,1000*6051800  , 30)})
-    objectList.update({3:Planet(147098079000 ,0    ,0              ,30287          ,5.9736*10**24             ,1000*6371008  , 40)})
-
-    potential = Potential(1500*10**(3))
-    potential.compute(objectList, -1*10**(8), 1*10**(8), -1*10**(8), 1*10**(8))
-    
-    
-    potential.initialisePlot(self, potentialFigure)
     
     
 # defining a function that compute the distance between a celestial object (from that class) and a point
@@ -30,7 +15,8 @@ def main():
 def distanceCompute(celestialObject, position_x, position_y):
     delta_x = celestialObject.x-position_x
     delta_y = celestialObject.y-position_y
-    distance = math.sqrt(delta_x**2 + delta_y**2)
+    #print(delta_x**2,delta_y**2)
+    distance = np.sqrt(delta_x**2 + delta_y**2)
     return distance
 """__________________________________________________________________"""
 
@@ -70,6 +56,7 @@ class Potential(object):
         
     def initialisePlot(self, potentialFigure):
         # we now define the plot for the potential with matplotlib
+        plt.ion()
         self.potentialFigure = potentialFigure
         self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
         
@@ -81,13 +68,14 @@ class Potential(object):
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
         plt.title("Gravitationnal potential (J/kg)")
-#        plt.show()
+        plt.show()
         
     def actualisePlot(self):
         # actualise the plot
         #self.lines.set_data(self.potentialMatrix)
         self.coloring.set_data(self.potentialMatrix)
-#        self.potentialFigure.canvas.draw()
+        self.potentialFigure.canvas.draw()
+        print("draw")
         
             
 if __name__ == "__main__":
