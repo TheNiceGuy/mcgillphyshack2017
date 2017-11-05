@@ -63,7 +63,7 @@ class MainWindow(QWidget):
 
         dd = (dx+dy)/2
 
-        self.__potential = Potential(dd/4)
+        self.__potential = Potential(dd/40)
 
         # plot view
         self.__levelView = PlotWidget(self.__potential, self.__game.getMap(), self)
@@ -90,6 +90,8 @@ class MainWindow(QWidget):
         self.__tickThread = TickThread(self.__game, self)
         self.connect(self.__tickThread, self.__tickThread.getSignal(), self.updateTick)
 
+        self.__count = 0
+
     def start(self):
         self.__game.start()
         self.__tickThread.start()
@@ -98,11 +100,15 @@ class MainWindow(QWidget):
         self.__game.stop()
 
     def updateTick(self):
-        print("map updated")
         self.__game.getMap().Step()
         self.__gameView.update()
-        self.__levelView.update()
-        #self.__levelView.update()
+
+        self.__count += 1
+
+        if self.__count == 120:
+            print("render map")
+            self.__levelView.update()
+            self.__count = 0
 
     def resizeEvent(self, event):
         width = event.size().width()
@@ -143,8 +149,7 @@ class TickThread(QThread):
 
     def getSignal(self):
         return self.__signal
-        
-
+ 
 class GLWidget(QGLWidget):
     def __init__(self, gamemap, parent=None):
         QGLWidget.__init__(self, parent)
@@ -245,6 +250,12 @@ class PlotWidget(FigureCanvasQTAgg):
         self.__potential = potential
         self.__map = gamemap
 
+        self.__width  = 0
+        self.__height = 0
+
+        (xmin, xmax) = self.__map.getLimitsX()
+        (ymin, ymax) = self.__map.getLimitsY()
+
         # initialise the figure
         self.__figure = Figure()
         self.__figure.patch.set_facecolor("None")
@@ -270,15 +281,55 @@ class PlotWidget(FigureCanvasQTAgg):
         self.setStyleSheet("background-color:transparent;")
 
     def compute_initial_figure(self):
-        (xmin,xmax) = self.__map.getLimitsX()
-        (ymin,ymax) = self.__map.getLimitsY()
-        self.__potential.compute(self.__map.getList(), xmin, xmax, ymin, ymax)
+        (minx,maxx) = self.__map.getLimitsX()
+        (miny,maxy) = self.__map.getLimitsY()
+
+        width  = maxx-minx
+        height = maxy-miny
+
+        w = self.frameGeometry().width()
+        h = self.frameGeometry().height()
+
+        dx = 0
+        dy = 0
+
+        if width < height:
+            dx = math.floor(height*(w/h)-width)
+        else:
+            dy = math.floor(width*(h/w)-height)
+    
+        minx -= dx/2
+        maxx += dx/2
+        miny -= dy/2
+        maxy += dy/2
+
+        self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.initialisePlot(self.__figure)
 
     def update(self):
-        (xmin,xmax) = self.__map.getLimitsX()
-        (ymin,ymax) = self.__map.getLimitsY()
-        self.__potential.compute(self.__map.getList(), xmin, xmax, ymin, ymax)
+        (minx,maxx) = self.__map.getLimitsX()
+        (miny,maxy) = self.__map.getLimitsY()
+
+        width  = maxx-minx
+        height = maxy-miny
+
+        w = self.frameGeometry().width()
+        h = self.frameGeometry().height()
+
+        dx = 0
+        dy = 0
+
+        if width < height:
+            dx = math.floor(height*(w/h)-width)
+        else:
+            dy = math.floor(width*(h/w)-height)
+    
+        minx -= dx/2
+        maxx += dx/2
+        miny -= dy/2
+        maxy += dy/2
+
+        self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.actualisePlot()
  #       self.draw()
 
