@@ -20,8 +20,8 @@ class Rocket(CelestialObject):
         self.Parent_index=Parent_index
         self.grounded=grounded
         self.propulsion=propulsion
-        self.x=Parent.x+Parent.radius*np.cos(theta0)
-        self.y=Parent.y+ Parent.radius*np.sin(theta0)
+        self.x=Parent.x+(radius+Parent.radius)*(np.cos(theta0))
+        self.y=Parent.y+(radius+ Parent.radius)*np.sin(theta0)
         self.vx = Parent.w*Parent.radius * np.cos(np.pi/2-theta0)
         self.vy = Parent.w*Parent.radius * np.sin(np.pi/2-theta0)
         self.Parent=Parent
