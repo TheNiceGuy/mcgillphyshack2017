@@ -34,7 +34,8 @@ class Map():
 
     def getLimitsX(self):
         (xmin,xmax) = self.xlims
-
+        
+        print(self.objectList)
         mn = min([space_object.x for space_object in self.objectList.values()])
         mx = max([space_object.x for space_object in self.objectList.values()])
 

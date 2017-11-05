@@ -24,6 +24,8 @@ def getPlan(count):
     dt=1
     objectList={}
     for i,planet in zip(range(4),[soleil,mercure,venus,terre]):#,mars,jupiter,uranus,neptune]):
+        print("allo")        
         objectList.update({i:planet})
-
+    print(objectList)
     return objectList
+getPlan(1)
