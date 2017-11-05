@@ -3,8 +3,8 @@ from celestial_object import*
 from constants import*
 
 class Planet(CelestialObject):
-    def __init__(self,x,y,vx,vy,mass,radius,w,angle=0):
-        super().__init__(x,y,vx,vy,mass,radius)
+    def __init__(self,x,y,vx,vy,mass,radius,w,angle=0,path1='pictures/planete1.png'):
+        super().__init__(x,y,vx,vy,mass,radius,path=path1)
         self.w=w
         self.angle=angle
 
@@ -13,6 +13,9 @@ class Planet(CelestialObject):
 
     def getAngle(self):
         return self.angle
+
+    def getPath(self):
+        return self.path1
 
     def collide(self,other_planet):
         #Update the data of the  planet:
