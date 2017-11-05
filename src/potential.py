@@ -37,18 +37,25 @@ def main ():
     objectList.append(planetTest6)
     
     potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
-    time.sleep(0.01)
     potential.actualisePlot()
-    
+    time.sleep(0.01)
+        
     planetTest7 = TestCelestialObject(6000*10**(4),4500*10**(4),5.3*10**(30))
     planetTest8 = TestCelestialObject(20000*10**(4),3000*10**(4),33.5*10**(30))
     objectList.append(planetTest7)
     objectList.append(planetTest8)
     
     potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
-    time.sleep(0.01)
     potential.actualisePlot()
     time.sleep(0.01)
+    
+    
+    planetTest9 = TestCelestialObject(2*10**(7),-4*10**(7),5.3*10**(30))
+    objectList.append(planetTest9)
+    
+    potential.compute(objectList, -10**(8), 10**(8), -10**(8), 10**(8))
+    potential.actualisePlot()
+    time.sleep(20)
     
     del potentialFigure
 
@@ -66,7 +73,6 @@ class TestCelestialObject(object):
         self.x=x
         self.y=y
         self.m=m
-        print("celestial object class ok")
 
 class Potential(object):
     def __init__(self, delta):
@@ -80,7 +86,7 @@ class Potential(object):
         self.x_list = numpy.arange(x_min-self.delta, x_max+self.delta, self.delta)
         self.y_list = numpy.arange(y_min-self.delta, y_max+self.delta, self.delta)
         
-        self.potentialMatrix = numpy.zeros( (len(self.x_list), len(self.y_list)) )
+        self.potentialMatrix = numpy.zeros( (len(self.y_list), len(self.x_list)) )
         
         # for each point on the discretization of space: (double for)
         for iterate_x in range(0,len(self.x_list)) :
@@ -91,34 +97,31 @@ class Potential(object):
                 for i in range(0, len(objectList)):
                     distance_i = distanceCompute(objectList[i], position_x, position_y)
                     if distance_i ==0:
-                        self.potentialMatrix[iterate_x, iterate_y] = self.potentialMatrix[iterate_x-1, iterate_y-1]
+                        self.potentialMatrix[-iterate_y, iterate_x] = self.potentialMatrix[-iterate_y+1, iterate_x-1]
                     else:
                         addPotential = -(G/(distance_i))*(objectList[i].m)
-                        self.potentialMatrix[iterate_x, iterate_y] = self.potentialMatrix[iterate_x, iterate_y] + addPotential
-        print("compute executed, ok")
+                        self.potentialMatrix[-iterate_y, iterate_x] = self.potentialMatrix[-iterate_y, iterate_x] + addPotential
         
     def initialisePlot(self, potentialFigure):
         # we now define the plot for the potential with matplotlib
         self.potentialFigure = potentialFigure
         self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
-        print("subplot initialised")
         
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
-        self.coloring =  self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.x_min, self.x_max, self.y_min, self.y_max], animated=True)     
-        self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, linewidths=1, colors='k', animated=True)
+        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.y_min, self.y_max, self.x_min, self.x_max], animated=True)     
+        #self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, linewidths=1, colors='k', extent= [self.x_min, self.x_max, self.y_min, self.y_max], animated=True)
         self.colorbar = plt.colorbar(self.coloring, shrink=0.8, extend='both')
-        print("lines and coloring initialised")
         
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
+        plt.title("Gravitationnal potential (J/kg)")
         plt.show()
         
     def actualisePlot(self):
         # actualise the plot
-        #self.lines.set_zdata(self.potentialMatrix)
+        #self.lines.set_data(self.potentialMatrix)
         self.coloring.set_data(self.potentialMatrix)
         self.potentialFigure.canvas.draw()
-        print("runned through the actualisePlot method")
         
             
 if __name__ == "__main__":
