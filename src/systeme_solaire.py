@@ -18,6 +18,5 @@ objectList.update({3:Planet(147098079000 ,0    ,0              ,30287          ,
 #neptune = Planet(4452940833000,0    ,0              ,5479           ,102.43*10**24             ,1000*2462200  , 76)
 
 def getPlan(count):
-    dt=1
-    rock=Rocket(2700*1000,10**24,0)
+    rock=Rocket(2700*1000,10**24,0,objectList[0],0)
     return objectList,rock

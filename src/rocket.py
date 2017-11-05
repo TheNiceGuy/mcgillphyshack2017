@@ -12,7 +12,7 @@ from systeme_solaire import *
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
 
-    def __init__(self, mass, radius, Parent_index, theta0, x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
+    def __init__(self, mass, radius, Parent_index,Parent, theta0, x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
         super().__init__(x, y, vx, vy, mass, radius)
         self.qte_gas = qte_gas
         self.ejection_speed = ejection_speed
@@ -20,11 +20,11 @@ class Rocket(CelestialObject):
         self.Parent_index=Parent_index
         self.grounded=grounded
         self.propulsion=propulsion
-        self.x=objectList[Parent_index].x+objectList[Parent_index].radius*np.cos(theta0)
-        self.y=objectList[Parent_index].y+ objectList[Parent_index].radius*np.sin(theta0)
-        self.vx = objectList[Parent_index].w*objectList[Parent_index].radius * np.cos(np.pi/2-theta0)
-        self.vy = objectList[Parent_index].w*objectList[Parent_index].radius * np.sin(np.pi/2-theta0)
-
+        self.x=Parent.x+Parent.radius*np.cos(theta0)
+        self.y=Parent.y+ Parent.radius*np.sin(theta0)
+        self.vx = Parent.w*Parent.radius * np.cos(np.pi/2-theta0)
+        self.vy = Parent.w*Parent.radius * np.sin(np.pi/2-theta0)
+        self.Parent=Parent
 
         self.theta0=theta0
     def getGrounded(self):
@@ -64,11 +64,11 @@ class Rocket(CelestialObject):
             self.ax += - mass_flow * ( -ejection_speed * (self.vx/np.sqrt(self.vx**2 + self.vy**2)) - self.vx )
             self.ay += - mass_flow * ( -ejection_speed * (self.vy/np.sqrt(self.vx**2 + self.vy**2)) - self.vy )
 
-    def actualizeSystem(self, objectList, dt):
+    def actualizeSystem(self,  dt):
         #If it is grounded make it rotate on the surface of its mother planet
-        if grounded:
+        if self.grounded:
             #Define the planet the mother planet
-            mother_planet = objectList[Parent_index]
+            mother_planet = self.Parent
 
             #Define the initial relative position vector
             x1 = self.x - mother_planet.x
@@ -122,3 +122,9 @@ class Rocket(CelestialObject):
         #If if propulsion is on actualize mass
         if self.propulsion:
             self.setMass(dt)
+
+    def collision(self,objectList):
+        if not self.grounded:
+            for celest_object in objectList.values():
+                if self.distance(celest_object) < 0.8*(self.radius + celest_object.radius) :
+                    self.collisions.append(celest_object.index)

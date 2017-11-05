@@ -20,12 +20,10 @@ class Map():
         self.xlims = (0,0)
         self.ylims = (0,0)
 
-        print(self.xlims)
 
         self.xlims  = self.getLimitsX()
         self.ylims  = self.getLimitsY()
 
-        print(self.xlims)
 
     def getList(self):
         return self.objectList
@@ -35,7 +33,7 @@ class Map():
 
     def getLimitsX(self):
         (xmin,xmax) = self.xlims
-        
+
         mn = min([space_object.x for space_object in self.objectList.values()])
         mx = max([space_object.x for space_object in self.objectList.values()])
 
@@ -128,6 +126,7 @@ class Map():
         # 2) For the rocket
         if self.rocket:
             if self.rocket.collisions:
+                print('entered')
                 return True
 
 
