@@ -125,10 +125,10 @@ class Map():
                 self.objectList[i].collide(self.objectList[j])
                 del self.objectList[j]
 
-        # 2) For the rocket
+       # 2) For the rocket
         if self.rocket:
             if self.rocket.collisions:
                 return True
-        
+
 
 
