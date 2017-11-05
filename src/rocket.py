@@ -84,12 +84,14 @@ class Rocket(CelestialObject):
             mother_planet = self.Parent
 
             #Define the initial relative position vector
-            x1 = self.x - mother_planet.x
-            y1 = self.y - mother_planet.y
+            x1 = self.x-mother_planet.x
+            y1 = self.y-mother_planet.y
+            x1 = x1/np.sqrt(x1**2 + y1**2)
+            y1 = y1/np.sqrt(x1**2 + y1**2)
 
             #Actualizing the position of the rocket
-            self.x = mother_planet.x + ( x1 * np.cos(mother_planet.w * dt) - y1 * np.sin(mother_planet.w * dt) )
-            self.y = mother_planet.y + ( x1 * np.sin(mother_planet.w * dt) + y1 * np.cos(mother_planet.w * dt) )
+            self.x = mother_planet.x + mother_planet.radius*( x1 * np.cos(mother_planet.w * dt) - y1 * np.sin(mother_planet.w * dt) )
+            self.y = mother_planet.y + mother_planet.radius*( x1 * np.sin(mother_planet.w * dt) + y1 * np.cos(mother_planet.w * dt) )
 
         #If it is not grounded compute as usual
         else:
@@ -137,7 +139,7 @@ class Rocket(CelestialObject):
             self.setMass(dt)
 
         #Actualize the angle of the rocket
-        self.actualizAngle(dt)
+        self.actualizeAngle(dt)
 
     def collision(self,objectList):
         if not self.grounded:
