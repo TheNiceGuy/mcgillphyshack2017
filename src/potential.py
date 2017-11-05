@@ -10,6 +10,21 @@ import matplotlib.pyplot as plt
 
 from constants import *
 
+def main():
+    objectList={}
+    #Definition des planètes du système solaire
+    objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.981*10**30              ,300*696342000 , 10)})
+    objectList.update({1:Planet(46001272000  ,0    ,0              ,58980          ,3.3011*10**23             ,1000*2439700  , 20)})
+    objectList.update({2:Planet(107476259000 ,0    ,0              ,35260          ,4.8685*10**24             ,1000*6051800  , 30)})
+    objectList.update({3:Planet(147098079000 ,0    ,0              ,30287          ,5.9736*10**24             ,1000*6371008  , 40)})
+
+    potential = Potential(1500*10**(3))
+    potential.compute(objectList, -1*10**(8), 1*10**(8), -1*10**(8), 1*10**(8))
+    
+    
+    potential.initialisePlot(self, potentialFigure)
+    
+    
 # defining a function that compute the distance between a celestial object (from that class) and a point
 """Definition________________________________________________"""
 def distanceCompute(celestialObject, position_x, position_y):
