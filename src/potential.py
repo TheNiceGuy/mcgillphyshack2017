@@ -68,10 +68,14 @@ class Potential(object):
         plt.title("Gravitationnal potential (J/kg)")
 #        plt.show()
         
-    def actualisePlot(self):
+    def actualisePlot(self, potentialFigure):
         # actualise the plot
         #self.lines.set_data(self.potentialMatrix)
-        self.coloring.set_data(self.potentialMatrix)
+        self.potentialFigure = potentialFigure
+        self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
+        
+        matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
+        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.y_min, self.y_max, self.x_min, self.x_max], animated=True)     
 #        self.potentialFigure.canvas.draw()
         
             

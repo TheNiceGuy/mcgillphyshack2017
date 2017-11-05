@@ -23,22 +23,6 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
 from game import *
 from potential import *
 
-#debugging
-import ctypes
-libc = ctypes.cdll.LoadLibrary('libc.so.6')
-
-# System dependent, see e.g. /usr/include/x86_64-linux-gnu/asm/unistd_64.h
-SYS_gettid = 186
-
-'''
-mainView
-* splitterGameView
-  * gameView
-  * splitterLevelView
-    * levelView
-    * controlsView
-'''
-
 class MainWindow(QWidget):
     def __init__(self, parent=None):
         super(MainWindow,self).__init__(parent)
@@ -63,15 +47,42 @@ class MainWindow(QWidget):
 
         dd = (dx+dy)/2
 
-        self.__potential = Potential(dd/40)
+        self.__potential = Potential(dd/20)
 
         # plot view
-        self.__levelView = PlotWidget(self.__potential, self.__game.getMap(), self)
+ #       self.__levelView = PlotWidget(self.__potential, self.__game.getMap(), self)
+        self.__figure = Figure()
+        self.__canvas = FigureCanvasQTAgg(self.__figure)
 
         # splitter for the controls view and the level view
         self.__splitterLevelView = QSplitter(Qt.Vertical)
         self.__splitterLevelView.addWidget(self.__splitterControls)
-        self.__splitterLevelView.addWidget(self.__levelView)
+        self.__splitterLevelView.addWidget(self.__canvas)
+
+        (minx,maxx) = self.__game.getMap().getLimitsX()
+        (miny,maxy) = self.__game.getMap().getLimitsY()
+
+        width  = maxx-minx
+        height = maxy-miny
+
+        w = self.frameGeometry().width()
+        h = self.frameGeometry().height()
+
+        dx = 0
+        dy = 0
+
+        if width < height:
+            dx = math.floor(height*(w/h)-width)
+        else:
+            dy = math.floor(width*(h/w)-height)
+    
+        minx -= dx/2
+        maxx += dx/2
+        miny -= dy/2
+        maxy += dy/2
+
+        self.__potential.compute(self.__game.getMap().getList(), minx, maxx, miny, maxy)
+        self.__potential.initialisePlot(self.__figure)
 
         # opengl drawing
         self.__gameView = GLWidget(self.__game.getMap())
@@ -105,9 +116,34 @@ class MainWindow(QWidget):
 
         self.__count += 1
 
-        if self.__count == 120:
+        if self.__count == 180:
             print("render map")
-            self.__levelView.update()
+            (minx,maxx) = self.__game.getMap().getLimitsX()
+            (miny,maxy) = self.__game.getMap().getLimitsY()
+
+            width  = maxx-minx
+            height = maxy-miny
+
+            w = self.__canvas.frameGeometry().width()
+            h = self.__canvas.frameGeometry().height()
+
+            dx = 0
+            dy = 0
+
+            if width < height:
+                dx = math.floor(height*(w/h)-width)
+            else:
+                dy = math.floor(width*(h/w)-height)
+        
+            minx -= dx/2
+            maxx += dx/2
+            miny -= dy/2
+            maxy += dy/2
+
+            self.__potential.compute(self.__game.getMap().getList(), minx, maxx, miny, maxy)
+            self.__potential.actualisePlot(self.__figure)
+            self.__canvas.draw()
+
             self.__count = 0
 
     def resizeEvent(self, event):
@@ -331,5 +367,6 @@ class PlotWidget(FigureCanvasQTAgg):
 
         self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.actualisePlot()
- #       self.draw()
+ #       self.__figure.canvas.draw()
+        self.draw()
 
