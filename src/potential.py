@@ -7,8 +7,7 @@ Created on Sat Nov  4 10:10:48 2017
 import numpy, time, math
 import matplotlib # for changing the matplotlib.contour behavior
 import matplotlib.pyplot as plt
-import numpy as np
-
+from constants import *
     
     
 # defining a function that compute the distance between a celestial object (from that class) and a point
@@ -57,7 +56,6 @@ class Potential(object):
         
     def initialisePlot(self, potentialFigure):
         # we now define the plot for the potential with matplotlib
-        plt.ion()
         self.potentialFigure = potentialFigure
         self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
         
@@ -69,7 +67,6 @@ class Potential(object):
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
         plt.title("Gravitationnal potential (J/kg)")
-        plt.show()
         
     def actualisePlot(self, potentialFigure):
         # actualise the plot
