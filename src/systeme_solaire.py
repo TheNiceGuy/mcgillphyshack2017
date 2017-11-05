@@ -1,5 +1,3 @@
-
-
 #Importer les modules
 from celestial_object import*
 from constants import*
@@ -21,9 +19,5 @@ objectList.update({3:Planet(147098079000 ,0    ,0              ,30287          ,
 
 
 def getPlan(count):
-#    objectList={}
-#    for i,planet in zip(range(4),[soleil,mercure,venus,terre]):#,mars,jupiter,uranus,neptune]):
-#        print("allo")        
-#        objectList.update({i:planet})
-    print(objectList)
+    dt=1
     return objectList
