@@ -12,15 +12,19 @@ from potential import*
 from rocket import*
 import numpy as np
 import math
+import time
 
 objectList={}
 #Definition des planètes du système solaire
-objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.5*10**24              ,500*10**6 , 10)})
-objectList.update({1:Planet( 4*10**6*math.cos(math.pi/4)      ,4*10**6*math.sin(math.pi/4)    ,1000*math.cos(math.pi/4)              ,1000*math.sin(math.pi/4)          ,1,5*10**22              ,2*10**6  , 2)})
-objectList.update({2:Planet( 5*10**6*math.cos(math.pi/6)      ,5*10**6*math.sin(math.pi/6)    ,1200*math.cos(math.pi/6)              ,1200*math.sin(math.pi/6)          ,1,6*10**22              ,2.3*10**6  , 1)})
-objectList.update({3:Planet( 7*10**6*math.cos(math.pi/2)      ,7*10**6*math.sin(math.pi/2)    ,1500*math.cos(math.pi/2)              ,1500*math.sin(math.pi/2)          ,1,2*10**21              ,1.7*10**6  , 5)})
-objectList.update({5:Planet( 7.2*10**6    ,0    ,0              ,1550         ,1.8*10**21              ,1.8*10**6 , 12)})
+objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.5*10**24              ,0.00001*500*10**6 , 10*10**7)})
+objectList.update({1:Planet( 4*10**9*math.cos(math.pi/4)      ,4*10**9*math.sin(math.pi/4)    ,1000*math.cos(math.pi/4)              ,1000*math.sin(math.pi/4)          ,1,5*10**22              ,0.00001*2*10**6  , 2*10**7)})
+objectList.update({2:Planet( 5*10**9*math.cos(math.pi/6)      ,5*10**9*math.sin(math.pi/6)    ,1200*math.cos(math.pi/6)              ,1200*math.sin(math.pi/6)          ,1,6*10**22              ,0.00001*2.3*10**6  , 1*10**7)})
+objectList.update({3:Planet( 7*10**9*math.cos(math.pi/2)      ,7*10**9*math.sin(math.pi/2)    ,1500*math.cos(math.pi/2)              ,1500*math.sin(math.pi/2)          ,1,2*10**21              ,0.00001*1.7*10**6  , 5*10**7)})
+objectList.update({4:Planet( 7.2*10**9    ,0    ,0              ,1550         ,1.8*10**21              ,0.00001*1.8*10**6 , 12*10**7)})
 
 def getPlan(count):
-    rock=[]
-    return objectList, rock
+    
+    rock=None #Rocket(2700*1000,1,0,objectList[0],0,0)
+    return objectList,rock
+    print(objectList)
+    time.sleep(20)

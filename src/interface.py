@@ -9,6 +9,7 @@ from OpenGL.GLU import *
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4.QtOpenGL import *
+from PIL import Image
 
 from matplotlib.backends import qt_compat
 use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE
@@ -193,6 +194,7 @@ class GLWidget(QGLWidget):
         self.__width = 0
         self.__height = 0
 
+        
     def resizeEvent(self, event):
         # get the new size of the widget
         self.__width = event.size().width()
@@ -205,8 +207,9 @@ class GLWidget(QGLWidget):
         print(event.x(), event.y())
 
     def paintGL(self):
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glMatrixMode(GL_PROJECTION);
         glLoadIdentity()
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         (minx,maxx) = self.__map.getLimitsX()
         (miny,maxy) = self.__map.getLimitsY()
@@ -218,7 +221,7 @@ class GLWidget(QGLWidget):
         dy = 0
 
 
-        glClearColor(0, 0, 0, 1);
+        glClearColor(0, 0, 0, 0);
 
         if width < height:
             dx = math.floor(height*(self.__width/self.__height)-width)
@@ -236,8 +239,12 @@ class GLWidget(QGLWidget):
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
-        glColor3f( 1.0, 1.5, 0.0 );
-        glPolygonMode(GL_FRONT, GL_FILL);
+
+    
+        #glColor3f( 1.0, 1.5, 0.0 );
+        #glPolygonMode(GL_FRONT, GL_FILL);
+
+        glClearColor(0.0,0.0,0.0,0.0)
 
         # draw the planets
         for planet in self.__map.getList().values():
@@ -245,27 +252,51 @@ class GLWidget(QGLWidget):
             y = planet.getY()
             r = planet.getRadius()
 
-            glCircle(x, y, r)
+            glBindTexture(GL_TEXTURE_2D, planet.tex)
+            glEnable(GL_TEXTURE_2D)
+            glRect(x, y, r, r)
+            glDisable(GL_TEXTURE_2D)
 
         # TODO: draw the rocket
-        x = self.__map.getRocket().getX()
-        y = self.__map.getRocket().getY()
-        r = self.__map.getRocket().getRadius()
+        if self.__map.getRocket() is not None:
+            x = self.__map.getRocket().getX()
+            y = self.__map.getRocket().getY()
+            r = self.__map.getRocket().getRadius()
+            t = self.__map.getRocket().theta
 
-        glCircle(x, y, r)
+            glBindTexture(GL_TEXTURE_2D, self.__map.getRocket().tex)
+            glEnable(GL_TEXTURE_2D)
+            glRect(x, y, r, r,t-(22.0/7.0)/4)
+            glDisable(GL_TEXTURE_2D)
 
         glFlush()
 
     def initializeGL(self):
+        glClearColor (0.0, 0.0, 0.0, 0.0);
+        glShadeModel(GL_FLAT);
+        glEnable(GL_DEPTH_TEST);
+
+        glDisable( GL_LIGHTING)
+
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
-        glEnable(GL_DEPTH_TEST)
-        glShadeModel(GL_SMOOTH)
+        glEnable(GL_ALPHA_TEST)
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         gluPerspective(45.0,1.33,0.1, 100.0)
         glMatrixMode(GL_MODELVIEW)
+
+        for obj in self.__map.getList().values():
+            path = obj.getPath()
+            obj.tex = textureFromFile(path)
+        path = self.__map.getRocket().getPath()
+        self.__map.getRocket().tex = textureFromFile(path)
+
+
+
+    def frameReceived(self, frame):
+        self.makeCurrent()
 
 def glCircle(px, py, r):
     count = 20
@@ -284,6 +315,44 @@ def glCircle(px, py, r):
         glVertex3f(px2, py2, 0.0)
     glEnd()
 
+def glRect(x, y, w, h, rot=0):
+    glLoadIdentity()
+    glTranslatef(x, y, 0.0);
+    glRotatef(360*rot/(22.0/7.0), 0.0, 0.0, 1.0);
+
+    glMatrixMode(GL_MODELVIEW)
+
+    glBegin(GL_QUADS)
+    glTexCoord(0.0, 0.0)
+    glVertex3f(-w/1, -h/1,  0.0)
+    glTexCoord(1.0, 0.0)
+    glVertex3f( w/1, -h/1,  0.0)
+    glTexCoord(1.0, 1.0)
+    glVertex3f( w/1,  h/1,  0.0)
+    glTexCoord(0.0, 1.0)
+    glVertex3f(-w/1,  h/1,  0.0)
+    glEnd()
+
+def textureFromFile(path):
+    img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM)
+    data = data = numpy.array(list(img.getdata()), numpy.int8)
+    width, height = img.size
+
+    glEnable( GL_TEXTURE_2D )
+    texture = glGenTextures(1)
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+    glBindTexture(GL_TEXTURE_2D, texture)
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+#    texData = [255, 255, 100, 255];
+#    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData)
+
+    return texture
 
 class PlotWidget(FigureCanvasQTAgg):
     def __init__(self, potential, gamemap, parent=None):
@@ -295,6 +364,7 @@ class PlotWidget(FigureCanvasQTAgg):
 
         (xmin, xmax) = self.__map.getLimitsX()
         (ymin, ymax) = self.__map.getLimitsY()
+
 
         # initialise the figure
         self.__figure = Figure()

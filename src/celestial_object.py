@@ -12,7 +12,8 @@ from constants import *
 class CelestialObject():
     '''Defining the abstract class celestial object who caracterize all spatial object in the simulation'''
     count = 0
-    def __init__(self, x, y, vx, vy, mass, radius, x0=0, y0=0, ax=0, ay=0, collision=[], init=False):
+    def __init__(self, x, y, vx, vy, mass, radius, x0=0, y0=0, ax=0, ay=0, collision=[], init=False, path='pictures/planete1.png',tex=0):
+
         self.x = x
         self.y = y
         self.vx = vx
@@ -26,12 +27,17 @@ class CelestialObject():
         self.collisions = collision
         self.init = init
         self.index = CelestialObject.count
+        self.path = path
+        self.tex = tex
         CelestialObject.count += 1
 
     def distance(self, other_object):
         ''' Compute the distance between the celestial object and an other one (other object)'''
         d = math.sqrt((self.x - other_object.x)**2 + (self.y - other_object.y)**2)
         return d
+
+    def getPath(self):
+        return self.path
 
     def getX(self):
         return self.x

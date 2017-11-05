@@ -40,7 +40,10 @@ class Map():
         mx = max([space_object.x for space_object in self.objectList.values()])
 
         if xmin == 0 and xmax == 0:
-            return (mn,mx)
+            if math.floor(mn) > math.floor(mx):
+                return (-math.floor(mn),math.floor(mn))
+            else:
+                return (-math.floor(mx),math.floor(mx))
         return (xmin,xmax)
 
         if xmin > mn:
@@ -128,7 +131,8 @@ class Map():
        # 2) For the rocket
         if self.rocket:
             if self.rocket.collisions:
-                return True
+                print('FIN DU MONDE !!!!!!')
+                #return True
 
 
 
