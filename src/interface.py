@@ -139,7 +139,6 @@ class MainWindow(QWidget):
             maxx += dx/2
             miny -= dy/2
             maxy += dy/2
-
             self.__potential.compute(self.__game.getMap().getList(), minx, maxx, miny, maxy)
             self.__potential.actualisePlot(self.__figure)
             self.__canvas.draw()
@@ -343,7 +342,7 @@ class PlotWidget(FigureCanvasQTAgg):
         maxx += dx/2
         miny -= dy/2
         maxy += dy/2
-
+        
         self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.initialisePlot(self.__figure)
 
@@ -369,7 +368,6 @@ class PlotWidget(FigureCanvasQTAgg):
         maxx += dx/2
         miny -= dy/2
         maxy += dy/2
-
         self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.actualisePlot()
         #self.__figure.canvas.draw()
