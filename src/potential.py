@@ -71,20 +71,18 @@ class Potential(object):
         print("subplot initialised")
         
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
-        #coloring = self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', cmap='spectral')        
-        #coloringRange = plt.colorbar(coloring, orientation='vertical', shrink=0.8)        
-        lines = self.potentialFigure.ax.contour(self.x_plot, self.y_plot, self.potentialMatrix, colors='k', linewidth = 2)
-        self.lines = lines
+        coloring =  self.potentialFigure.ax.imshow(self.potentialMatrix, interpolation='bilinear', origin='lower', cmap=cm.gray)     
+        self.lines = self.potentialFigure.ax.contour(self.potentialMatrix, levels, origin='lower', linewidths=2)
         print("lines initialised")
         
-        self.potentialFigure.ax.set_xlabel("x (m)")
-        self.potentialFigure.ax.set_ylabel("y (m)")
-        print("axis added")
-        #plt.show()
+        #self.potentialFigure.ax.set_xlabel("x (m)")
+        #self.potentialFigure.ax.set_ylabel("y (m)")
+        #print("axis added")
         
     def actualisePlot(self):
         # actualise the plot
-        #self.lines.Z = self.potentialMatrix
+        self.lines.Z = self.potentialMatrix
+        
         plt.show()
         print("run through the actualisePlot method")
         
