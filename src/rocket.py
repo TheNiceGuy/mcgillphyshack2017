@@ -96,8 +96,8 @@ class Rocket(CelestialObject):
             y1 = y1/np.sqrt(x1**2 + y1**2)
 
             #Actualizing the position of the rocket
-            self.x = mother_planet.x + mother_planet.radius*( x1 * np.cos(mother_planet.w * dt) - y1 * np.sin(mother_planet.w * dt) )
-            self.y = mother_planet.y + mother_planet.radius*( x1 * np.sin(mother_planet.w * dt) + y1 * np.cos(mother_planet.w * dt) )
+            self.x = mother_planet.x + mother_planet.radius*( x1 * np.cos(self.theta) - y1 * np.sin(self.theta) )
+            self.y = mother_planet.y + mother_planet.radius*( x1 * np.sin(self.theta) + y1 * np.cos(self.theta) )
 
         #If it is not grounded compute as usual
         else:
