@@ -27,7 +27,11 @@ class Game(object):
         self.__running = False
 
     def setPropulsion(self, state):
-        pass
+        rocket = self.__map.getRocket()
+        if rocket is None:
+            return;
+
+        rocket.setPropulsion(state)
 
     def running(self):
         return self.__running
