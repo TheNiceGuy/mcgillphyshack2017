@@ -10,9 +10,9 @@ import numpy as np
 
 
 #Definition des planètes du système solaire
-soleil =  Planete(0           ,0    ,0              ,0              ,1.981*10**30              ,696342000, 10)
-mercure = Planete(46001272000 ,0    ,0              ,58980          ,3.3011*10**23             ,2439700  , 10)
-venus =   Planete(107476259000,0    ,0              ,35260          ,4.8685*10**24             ,6051800  , 10)
+soleil =  Planet(0           ,0    ,0              ,0              ,1.981*10**30              ,696342000, 10)
+mercure = Planet(46001272000 ,0    ,0              ,58980          ,3.3011*10**23             ,2439700  , 10)
+venus =   Planet(107476259000,0    ,0              ,35260          ,4.8685*10**24             ,6051800  , 10)
 
 
 def getPlan():

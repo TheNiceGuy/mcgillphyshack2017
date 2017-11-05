@@ -6,7 +6,7 @@ import subprocess
 from interface import *
 
 if __name__ == "__main__":
-    subprocess.call(['sudo', 'apt-get', 'install', 'sl'])
+    #subprocess.call(['sudo', 'apt-get', 'install', 'sl'])
 
     # create the application
     app = QtGui.QApplication(sys.argv)
