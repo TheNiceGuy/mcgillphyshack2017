@@ -128,7 +128,8 @@ class Map():
        # 2) For the rocket
         if self.rocket:
             if self.rocket.collisions:
-                return True
+                print('FIN DU MONDE !!!!!!')
+                #return True
 
 
 
