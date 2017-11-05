@@ -95,8 +95,8 @@ class Potential(object):
                 position_y = self.y_list[iterate_y]
                 # adding the potential from each celestial object contained in objectList
                 for i in range(0, len(objectList)):
-                    print(position_x)
-                    print(position_y)
+                    #print(position_x)
+                    #print(position_y)
                     #print(objectList[i])
                     distance_i = distanceCompute(objectList[i], position_x, position_y)
                     if distance_i ==0:

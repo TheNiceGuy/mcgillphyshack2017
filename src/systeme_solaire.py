@@ -20,7 +20,7 @@ terre =   Planet(147098079000 ,0    ,0              ,30287          ,5.9736*10**
 #neptune = Planet(4452940833000,0    ,0              ,5479           ,102.43*10**24             ,1000*2462200  , 76)
 
 
-def getPlan():
+def getPlan(count):
     dt=1
     objectList={}
     for i,planet in zip(range(4),[soleil,mercure,venus,terre]):#,mars,jupiter,uranus,neptune]):
