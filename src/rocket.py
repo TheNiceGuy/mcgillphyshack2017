@@ -12,7 +12,7 @@ from systeme_solaire import *
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
 
-    def __init__(self, x, y, vx, vy, mass, radius, Parent_index,theta0 ,grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
+    def __init__(self, vx, vy, mass, radius, Parent_index, theta0, x=0, y=0, grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
         super().__init__(x, y, vx, vy, mass, radius)
         self.qte_gas = qte_gas
         self.ejection_speed = ejection_speed
