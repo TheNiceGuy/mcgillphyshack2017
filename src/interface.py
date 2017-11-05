@@ -252,22 +252,22 @@ class GLWidget(QGLWidget):
             y = planet.getY()
             r = planet.getRadius()
 
-            glBindTexture(GL_TEXTURE_2D, self.__p1)
+            glBindTexture(GL_TEXTURE_2D, planet.tex)
             glEnable(GL_TEXTURE_2D)
             glRect(x, y, r, r)
             glDisable(GL_TEXTURE_2D)
 
         # TODO: draw the rocket
-        x = self.__map.getRocket().getX()
-        y = self.__map.getRocket().getY()
-        r = self.__map.getRocket().getRadius()
-        t = self.__map.getRocket().theta
+        if self.__map.getRocket() is not None:
+            x = self.__map.getRocket().getX()
+            y = self.__map.getRocket().getY()
+            r = self.__map.getRocket().getRadius()
+            t = self.__map.getRocket().theta
 
-        print(x,y)
-        glBindTexture(GL_TEXTURE_2D, self.__ro)
-        glEnable(GL_TEXTURE_2D)
-        glRect(x, y, r, r,t-(22.0/7.0)/4)
-        glDisable(GL_TEXTURE_2D)
+            glBindTexture(GL_TEXTURE_2D, self.__map.getRocket().tex)
+            glEnable(GL_TEXTURE_2D)
+            glRect(x, y, r, r,t-(22.0/7.0)/4)
+            glDisable(GL_TEXTURE_2D)
 
         glFlush()
 
@@ -280,19 +280,20 @@ class GLWidget(QGLWidget):
 
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
-       # glEnable(GL_DEPTH_TEST)
         glEnable(GL_ALPHA_TEST)
-       # glShadeModel(GL_SMOOTH)
 
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         gluPerspective(45.0,1.33,0.1, 100.0)
         glMatrixMode(GL_MODELVIEW)
 
-        self.__p1 = textureFromFile("pictures/planete1.png")
-        self.__p2 = textureFromFile("pictures/planete2.png")
-        self.__p3 = textureFromFile("pictures/planete3.png")
-        self.__ro = textureFromFile("pictures/rocket.png")
+        for obj in self.__map.getList().values():
+            path = obj.getPath()
+            obj.tex = textureFromFile(path)
+        path = self.__map.getRocket().getPath()
+        self.__map.getRocket().tex = textureFromFile(path)
+
+
 
     def frameReceived(self, frame):
         self.makeCurrent()

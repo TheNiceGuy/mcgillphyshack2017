@@ -14,9 +14,6 @@ class Planet(CelestialObject):
     def getAngle(self):
         return self.angle
 
-    def getPath(self):
-        return self.path1
-
     def collide(self,other_planet):
         #Update the data of the  planet:
         # The radius
