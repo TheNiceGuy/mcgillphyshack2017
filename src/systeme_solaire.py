@@ -18,7 +18,7 @@ objectList.update({4:Planet(206644545000 ,0    ,0              ,26499          ,
 #objectList.update({7:Planet(4452940833000,0    ,0              ,5479           ,102.43*10**24             ,1000*2462200  , 76)})
 
 def getPlan(count):
-    rock=Rocket(2700*1000,10**10,0,objectList[3],0,0)
+    rock=Rocket(2700*1000,10**10,0,objectList[3],np.pi,np.pi)
     return objectList,rock
     print(objectList)
     time.sleep(2)

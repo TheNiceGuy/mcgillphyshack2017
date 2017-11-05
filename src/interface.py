@@ -76,7 +76,7 @@ class MainWindow(QWidget):
             dx = math.floor(height*(w/h)-width)
         else:
             dy = math.floor(width*(h/w)-height)
-    
+
         minx -= dx/2
         maxx += dx/2
         miny -= dy/2
@@ -135,7 +135,7 @@ class MainWindow(QWidget):
                 dx = math.floor(height*(w/h)-width)
             else:
                 dy = math.floor(width*(h/w)-height)
-        
+
             minx -= dx/2
             maxx += dx/2
             miny -= dy/2
@@ -185,7 +185,7 @@ class TickThread(QThread):
 
     def getSignal(self):
         return self.__signal
- 
+
 class GLWidget(QGLWidget):
     def __init__(self, gamemap, parent=None):
         QGLWidget.__init__(self, parent)
@@ -194,7 +194,7 @@ class GLWidget(QGLWidget):
         self.__width = 0
         self.__height = 0
 
-        
+
     def resizeEvent(self, event):
         # get the new size of the widget
         self.__width = event.size().width()
@@ -227,7 +227,7 @@ class GLWidget(QGLWidget):
             dx = math.floor(height*(self.__width/self.__height)-width)
         else:
             dy = math.floor(width*(self.__height/self.__width)-height)
-    
+
         minx -= dx/2
         maxx += dx/2
         miny -= dy/2
@@ -240,7 +240,7 @@ class GLWidget(QGLWidget):
         glLoadIdentity()
 
 
-    
+
         #glColor3f( 1.0, 1.5, 0.0 );
         #glPolygonMode(GL_FRONT, GL_FILL);
 
@@ -272,7 +272,7 @@ class GLWidget(QGLWidget):
 
             glBindTexture(GL_TEXTURE_2D, self.__map.getRocket().tex)
             glEnable(GL_TEXTURE_2D)
-            glRect(x, y, r, r,t-(22.0/7.0)/4)
+            glRect(x, y, r, r,t)
             glDisable(GL_TEXTURE_2D)
 
         glFlush()
@@ -418,12 +418,12 @@ class PlotWidget(FigureCanvasQTAgg):
             dx = math.floor(height*(w/h)-width)
         else:
             dy = math.floor(width*(h/w)-height)
-    
+
         minx -= dx/2
         maxx += dx/2
         miny -= dy/2
         maxy += dy/2
-        
+
         self.__potential.compute(self.__map.getList(), minx, maxx, miny, maxy)
         self.__potential.initialisePlot(self.__figure)
 
@@ -444,7 +444,7 @@ class PlotWidget(FigureCanvasQTAgg):
             dx = math.floor(height*(w/h)-width)
         else:
             dy = math.floor(width*(h/w)-height)
-    
+
         minx -= dx/2
         maxx += dx/2
         miny -= dy/2

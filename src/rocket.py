@@ -11,7 +11,7 @@ import numpy as np
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
 
-    def __init__(self, mass, radius, Parent_index,Parent, theta0, theta,path2='pictures/rocket.png', x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=0.0004, mass_flow=0.00000005, propulsion=False):
+    def __init__(self, mass, radius, Parent_index,Parent, theta0, theta,path2='pictures/rocket.png', x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=0.004, mass_flow=0.000005, propulsion=False):
 
         super().__init__(x, y, vx, vy, mass, radius, path=path2)
         self.qte_gas = qte_gas
@@ -20,14 +20,14 @@ class Rocket(CelestialObject):
         self.Parent_index=Parent_index
         self.grounded=grounded
         self.propulsion=propulsion
-        self.x=Parent.x+(radius+Parent.radius)*(np.cos(theta0))
-        self.y=Parent.y+(radius+ Parent.radius)*np.sin(theta0)
+        self.x=Parent.x+(radius+Parent.radius)*(np.cos(theta))
+        self.y=Parent.y+(radius+ Parent.radius)*np.sin(theta)
         #self.vx = 0
         #self.vy = 0
-        self.vx = Parent.w*Parent.radius * np.cos(np.pi/2-theta0)
-        self.vy = Parent.w*Parent.radius * np.sin(np.pi/2-theta0)
+        self.vx = Parent.w*Parent.radius * np.cos(np.pi/2-theta)
+        self.vy = Parent.w*Parent.radius * np.sin(np.pi/2-theta)
         self.Parent=Parent
-        self.theta = theta0
+        self.theta = theta
 
 
         self.theta0=theta0
@@ -48,12 +48,12 @@ class Rocket(CelestialObject):
 
     def actualizeAngle(self,dt):
         if self.grounded:
-            self.theta = self.Parent.angle
+            self.theta =np.pi/2
         else:
             if self.vx >= 0:
                 self.theta= np.arctan(self.vy/self.vx)
             elif self.vx < 0:
-                self.theta = np.arctan(self.vy/self.vx) + np.pi
+                self.theta = np.arctan(self.vy/self.vx)+np.pi
 
 
     def acceleration(self, objectList):
@@ -98,15 +98,16 @@ class Rocket(CelestialObject):
             mother_planet = self.Parent
 
             #Define the initial relative position vector
-            x1 = self.x-mother_planet.x
-            y1 = self.y-mother_planet.y
-            x1 = x1/np.sqrt(x1**2 + y1**2)
-            y1 = y1/np.sqrt(x1**2 + y1**2)
+            #x1 = self.x-mother_planet.x
+            #y1 = self.y-mother_planet.y
+            #x1 = x1/np.sqrt(x1**2 + y1**2)
+            #y1 = y1/np.sqrt(x1**2 + y1**2)
 
             #Actualizing the position of the rocket
-            self.x = mother_planet.x + mother_planet.radius*( x1 * np.cos(mother_planet.angle) - y1 * np.sin(mother_planet.angle) )
-            self.y = mother_planet.y + mother_planet.radius*( x1 * np.sin(mother_planet.angle) + y1 * np.cos(mother_planet.angle) )
-
+            #self.x = mother_planet.x + mother_planet.radius*( x1 * np.cos(mother_planet.angle) - y1 * np.sin(mother_planet.angle) )
+            #self.y = mother_planet.y + mother_planet.radius*( x1 * np.sin(mother_planet.angle) + y1 * np.cos(mother_planet.angle) )
+            self.x=mother_planet.x-mother_planet.radius
+            self.y=mother_planet.y
         #If it is not grounded compute as usual
         else:
             #If the system has not been initialize, do the first step with Euler method
