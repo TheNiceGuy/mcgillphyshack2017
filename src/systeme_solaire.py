@@ -23,7 +23,7 @@ neptune = Planet(4452940833000,0    ,0              ,5479           ,102.43*10**
 def getPlan():
     dt=1
     objectList={}
-    for i,planet in zip(range(5),[soleil,mercure,venus,terre,mars]):
+    for i,planet in zip(range(8),[soleil,mercure,venus,terre,mars,jupiter,uranus,neptune]):
         objectList.update({i:planet})
 
     return objectList
