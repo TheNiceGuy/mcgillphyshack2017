@@ -7,12 +7,12 @@ Created on Sat Nov  4 10:10:16 2017
 from constants import *
 from celestial_object import *
 import numpy as np
-from systeme_solaire import *
 
 class Rocket(CelestialObject):
     '''defining the rocket class that caracterizes the rocket in the simulation'''
 
-    def __init__(self, mass, radius, Parent_index,Parent, theta0, theta, x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=4000, mass_flow=1000, propulsion=False):
+    def __init__(self, mass, radius, Parent_index,Parent, theta0, theta, x=0, y=0, vx=0, vy=0, grounded=True,  qte_gas=200*1000, ejection_speed=0.0004, mass_flow=0.00000000000000005, propulsion=False):
+
         super().__init__(x, y, vx, vy, mass, radius)
         self.qte_gas = qte_gas
         self.ejection_speed = ejection_speed
@@ -22,10 +22,10 @@ class Rocket(CelestialObject):
         self.propulsion=propulsion
         self.x=Parent.x+(radius+Parent.radius)*(np.cos(theta0))
         self.y=Parent.y+(radius+ Parent.radius)*np.sin(theta0)
-        self.vx = 0
-        self.vy = 0
-        #self.vx = Parent.w*Parent.radius * np.cos(np.pi/2-theta0)
-        #self.vy = Parent.w*Parent.radius * np.sin(np.pi/2-theta0)
+        #self.vx = 0
+        #self.vy = 0
+        self.vx = Parent.w*Parent.radius * np.cos(np.pi/2-theta0)
+        self.vy = Parent.w*Parent.radius * np.sin(np.pi/2-theta0)
         self.Parent=Parent
         self.theta = theta0
 
@@ -45,12 +45,12 @@ class Rocket(CelestialObject):
 
     def actualizeAngle(self,dt):
         if self.grounded:
-            self.angle = self.angle + self.parent.w*dt
+            self.theta = self.theta + self.Parent.w*dt
         else:
             if self.vx >= 0:
-                self.angle = np.arctan(self.vx/self.vy)
+                self.theta= np.arctan(self.vx/self.vy)
             elif self.vx < 0:
-                self.angle = np.arctan(self.vx/self.vy) + np.pi
+                self.theta = np.arctan(self.vx/self.vy) + np.pi
 
 
     def acceleration(self, objectList):
@@ -71,12 +71,18 @@ class Rocket(CelestialObject):
         for celest_object in objectList.values():
             self.ax += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_object.x - self.x)/self.distance(celest_object))
             self.ay += ((G * celest_object.mass)/self.distance(celest_object)**2) * ((celest_object.y - self.y)/self.distance(celest_object))
+            print(self.ax, 'ax sans propulse')
+
+            print(self.vx, 'vx sans  propulse')
 
         #If the propulsion is on, compute the acceleration of the propulsion
         if self.propulsion:
             self.ax += - self.mass_flow * ( -self.ejection_speed*(np.cos(self.theta)) - self.vx)
             self.ay += - self.mass_flow * ( -self.ejection_speed*(np.sin(self.theta)) - self.vy)
 
+            print(self.ax, 'ax avec propulse')
+
+            print(self.vx, 'vx avec propulse')
     def actualizeSystem(self,  dt):
         #If it is grounded make it rotate on the surface of its mother planet
         if self.grounded:

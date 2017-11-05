@@ -6,8 +6,9 @@ import time
 
 from PyQt4 import QtGui
 from interface import *
-#from liste_plan import *
-from systeme_solaire import *
+from liste_plan import *
+#from systeme_solaire import *
+#from system_moons import *
 
 from map import *
 
