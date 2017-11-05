@@ -9,7 +9,7 @@ from rocket import*
 import numpy as np
 
 #Defining constants
-dt = 5000
+dt = 500
 
 class Map():
 
@@ -32,25 +32,34 @@ class Map():
                max([space_object.y for space_object in self.objectList.values() ])
 
     def Step(self):
+        ###########################
         #Updating all acceleration:
         # 1) for all planets
         for objetSpatial in self.objectList.values():
             objetSpatial.acceleration(self.objectList)
-
         # 2) for the rocket
         if self.rocket:
             self.rocket.acceleration(self.objectList)
 
+        ###################################
         #Update the data of all the objects
         # 1) For the planets
         for objetSpatial in self.objectList.values():
             objetSpatial.actualizeSystem(dt)
             objetSpatial.actualizeAngle(dt)
-
         # 2) For the rocket
         if self.rocket:
             self.rocket.actualizeSystem(dt)
 
+        ###############################
+        #Look if there is any collision
+        # 1) For the planets
+        for objectSpatial in self.objectList.values():
+            objectSpatial.collision(self.objectList)
+        # 2) for the rocket
+        self.rocket.collision(self.objectList)
+
+        ########################
         #Deal with the collision
         # 1) For the planets
         # i) Construct a list of all the tuple of the planets that collided

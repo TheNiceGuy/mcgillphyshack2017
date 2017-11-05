@@ -15,7 +15,7 @@ def getPlan():
     vx=10**3*np.random.randn(20)+30000
     vy=10**3*np.random.randn(20)+30000
     mass=4.5*10**27*np.random.randn(20)+5*10**28
-    radius = [(((3*m)/(density_t * 4 * np.pi))**(1/3))/150 for m in mass]
+    radius = [1000*(((3*m)/(density_t * 4 * np.pi))**(1/3))/150 for m in mass]
     w=1.09367*10**-5*np.random.randn(20)+7.2921159*10**-5
 
     objectList={}

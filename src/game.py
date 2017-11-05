@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import pygame
 import sys
 import threading
 import time

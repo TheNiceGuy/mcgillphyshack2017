@@ -5,9 +5,6 @@ import sys
 from interface import *
 
 if __name__ == "__main__":
-    # initialise pygame
-    pygame.init()
-
     # create the application
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
