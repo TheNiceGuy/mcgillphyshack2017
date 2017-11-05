@@ -61,7 +61,7 @@ class Potential(object):
         
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
         self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, cmap='spectral', animated=True, extent= [self.y_min, self.y_max, self.x_min, self.x_max], vmin=-1*10**(11), vmax=0.0)     
-        self.colorbar = self.potentialFigure.colorbar(self.coloring, shrink=0.8, extend='both')
+        self.colorbar = self.potentialFigure.colorbar(self.coloring, extend='both')
                 
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
