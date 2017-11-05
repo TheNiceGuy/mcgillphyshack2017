@@ -92,7 +92,6 @@ class Map():
         #Look if there is any collision
         # 1) For the planets
         for objectSpatial in self.objectList.values():
-  #          objectSpatial.actualizeSystem(dt)
             objectSpatial.collision(self.objectList)
         # 2) for the rocket
         if self.rocket is not None:

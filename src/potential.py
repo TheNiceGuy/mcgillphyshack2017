@@ -99,7 +99,7 @@ class Potential(object):
                     if distance_i ==0:
                         self.potentialMatrix[-iterate_y, iterate_x] = self.potentialMatrix[-iterate_y+1, iterate_x-1]
                     else:
-                        addPotential = -(G/(distance_i))*(objectList[i].m)
+                        addPotential = -(G/(distance_i))*(objectList[i].mass)
                         self.potentialMatrix[-iterate_y, iterate_x] = self.potentialMatrix[-iterate_y, iterate_x] + addPotential
         
     def initialisePlot(self, potentialFigure):
@@ -115,13 +115,13 @@ class Potential(object):
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
         plt.title("Gravitationnal potential (J/kg)")
-        plt.show()
+#        plt.show()
         
     def actualisePlot(self):
         # actualise the plot
         #self.lines.set_data(self.potentialMatrix)
         self.coloring.set_data(self.potentialMatrix)
-        self.potentialFigure.canvas.draw()
+#        self.potentialFigure.canvas.draw()
         
             
 if __name__ == "__main__":

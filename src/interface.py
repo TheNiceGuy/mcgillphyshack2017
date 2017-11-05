@@ -21,6 +21,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
 
 from game import *
+from potential import *
 
 #debugging
 import ctypes
@@ -48,14 +49,24 @@ class MainWindow(QWidget):
         self.__fuelGauge = QProgressBar()
         self.__fuelGauge.setOrientation(Qt.Vertical)
 
-
         # controls of the application
         self.__splitterControls = QSplitter(Qt.Horizontal)
         self.__splitterControls.addWidget(self.__fuelGauge)
         self.__splitterControls.addWidget(QFrame())
 
+        # create the potential thing
+        (xmin,xmax) = self.__game.getMap().getLimitsX()
+        (ymin,ymax) = self.__game.getMap().getLimitsY()
+
+        dx = xmax-xmin
+        dy = ymax-ymin
+
+        dd = (dx+dy)/2
+
+        self.__potential = Potential(dd/4)
+
         # plot view
-        self.__levelView = PlotWidget(self)
+        self.__levelView = PlotWidget(self.__potential, self.__game.getMap(), self)
 
         # splitter for the controls view and the level view
         self.__splitterLevelView = QSplitter(Qt.Vertical)
@@ -88,8 +99,9 @@ class MainWindow(QWidget):
 
     def updateTick(self):
         print("map updated")
-        self.__gameView.update()
         self.__game.getMap().Step()
+        self.__gameView.update()
+        self.__levelView.update()
         #self.__levelView.update()
 
     def resizeEvent(self, event):
@@ -229,7 +241,10 @@ def glCircle(px, py, r):
 
 
 class PlotWidget(FigureCanvasQTAgg):
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
+    def __init__(self, potential, gamemap, parent=None):
+        self.__potential = potential
+        self.__map = gamemap
+
         # initialise the figure
         self.__figure = Figure()
         self.__figure.patch.set_facecolor("None")
@@ -237,9 +252,6 @@ class PlotWidget(FigureCanvasQTAgg):
         # we want a transparent background
         self.axes = self.__figure.add_subplot(111)
         self.axes.patch.set_alpha(1)
-
-        # we need minimal figure
-        self.compute_initial_figure()
 
         # initialise this widget
         FigureCanvasQTAgg.__init__(self, self.__figure)
@@ -251,9 +263,22 @@ class PlotWidget(FigureCanvasQTAgg):
                                    QtGui.QSizePolicy.Expanding)
         FigureCanvasQTAgg.updateGeometry(self)
 
+        # we need minimal figure
+        self.compute_initial_figure()
+
         # transparent background
         self.setStyleSheet("background-color:transparent;")
 
     def compute_initial_figure(self):
-        pass
+        (xmin,xmax) = self.__map.getLimitsX()
+        (ymin,ymax) = self.__map.getLimitsY()
+        self.__potential.compute(self.__map.getList(), xmin, xmax, ymin, ymax)
+        self.__potential.initialisePlot(self.__figure)
+
+    def update(self):
+        (xmin,xmax) = self.__map.getLimitsX()
+        (ymin,ymax) = self.__map.getLimitsY()
+        self.__potential.compute(self.__map.getList(), xmin, xmax, ymin, ymax)
+        self.__potential.actualisePlot()
+ #       self.draw()
 
