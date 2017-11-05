@@ -61,7 +61,10 @@ class Map():
         mx = max([space_object.y for space_object in self.objectList.values()])
 
         if ymin == 0 and ymax == 0:
-            return (mn,mx)
+            if math.floor(mn) > math.floor(mx):
+                return (-math.floor(mn),math.floor(mn))
+            else:
+                return (-math.floor(mx),math.floor(mx))
         return (ymin,ymax)
 
         if ymin > mn:
