@@ -91,7 +91,7 @@ class MainWindow(QWidget):
         # splitter for the game view and the level splitter
         self.__splitterGameView = QSplitter(Qt.Horizontal)
         self.__splitterGameView.addWidget(self.__gameView)
-        self.__splitterGameView.addWidget(self.__splitterLevelView)
+        self.__splitterGameView.addWidget(self.__canvas)
 
         # main view
         self.__mainView = QHBoxLayout(self)
