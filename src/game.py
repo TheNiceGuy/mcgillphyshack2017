@@ -6,8 +6,8 @@ import time
 
 from PyQt4 import QtGui
 from interface import *
-#from liste_plan import *
-from systeme_solaire import *
+from liste_plan import *
+#from systeme_solaire import *
 #from system_moons import *
 
 from map import *
@@ -16,7 +16,7 @@ from map import *
 class Game(object):
     def __init__(self):
         self.__running = False
-        o,r=getPlan(4)
+        o,r=getPlan(10)
         self.__map = Map(o,r)
 
     def start(self):

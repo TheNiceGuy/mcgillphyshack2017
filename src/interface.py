@@ -251,10 +251,11 @@ class GLWidget(QGLWidget):
             x = planet.getX()
             y = planet.getY()
             r = planet.getRadius()
+            t = planet.angle
 
             glBindTexture(GL_TEXTURE_2D, planet.tex)
             glEnable(GL_TEXTURE_2D)
-            glRect(x, y, r, r)
+            glRect(x, y, r, r, t)
             glDisable(GL_TEXTURE_2D)
 
         # TODO: draw the rocket
