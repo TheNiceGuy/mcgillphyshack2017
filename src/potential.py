@@ -33,6 +33,7 @@ class Potential(object):
     def compute(self, objectList, x_min, x_max, y_min, y_max):
         self.x_min = x_min
         self.x_max = x_max
+        print("potential",self.x_min, self.x_max)
         self.y_min = y_min
         self.y_max = y_max
         self.x_list = numpy.arange(x_min-self.delta, x_max+self.delta, self.delta)
@@ -60,8 +61,9 @@ class Potential(object):
         self.potentialFigure.ax = potentialFigure.add_subplot(1,1,1)
         
         matplotlib.rcParams['contour.negative_linestyle'] = 'solid'
-        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, cmap='spectral', animated=True, extent= [self.y_min, self.y_max, self.x_min, self.x_max], vmin=-1*10**(11), vmax=0.0)     
+        self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, cmap='spectral', animated=True, extent= [self.x_min, self.x_max, self.y_min, self.y_max], vmin=-1*10**(11), vmax=0.0)     
         self.colorbar = self.potentialFigure.colorbar(self.coloring, extend='both')
+        
                 
         self.potentialFigure.ax.set_xlabel("x (m)")
         self.potentialFigure.ax.set_ylabel("y (m)")
@@ -73,7 +75,6 @@ class Potential(object):
         #print(self.potentialMatrix[len(self.potentialMatrix)/2, len(self.potentialMatrix)/2])
         #self.coloring =  self.potentialFigure.ax.imshow( self.potentialMatrix, interpolation='bilinear', cmap='spectral', extent= [self.y_min, self.y_max, self.x_min, self.x_max], animated=True)     
         self.potentialFigure.canvas.draw()
-        print(type(self.potentialFigure))
             
 if __name__ == "__main__":
     main()
