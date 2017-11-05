@@ -9,7 +9,7 @@ from rocket import*
 import numpy as np
 
 #Defining constants
-dt = 1
+dt = 5000
 
 class Map():
 
