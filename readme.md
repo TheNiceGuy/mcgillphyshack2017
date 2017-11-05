@@ -22,3 +22,9 @@ $ ./main.py
 
 It is also possible to implement customs planet system. Due to the lack of time, we
 couldn't give this functionality to the user. He must code his own system.
+
+# Examples
+
+![Alt text](screenshots/2017-11-05-075008_swaygrab.png)
+
+![Alt text](screenshots/2017-11-05-075029_swaygrab.png)
