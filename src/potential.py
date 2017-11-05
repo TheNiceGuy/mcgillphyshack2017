@@ -4,7 +4,7 @@ Created on Sat Nov  4 10:10:48 2017
 
 @author: utilisateur1
 """
-import math, numpy, time
+import numpy, time, math
 import matplotlib # for changing the matplotlib.contour behavior
 import matplotlib.pyplot as plt
 

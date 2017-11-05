@@ -5,6 +5,7 @@ Created on Sat Nov  4 10:10:16 2017
 @author: utilisateur1
 """
 #Importing packages
+import math
 import numpy as np
 from constants import *
 
@@ -29,7 +30,7 @@ class CelestialObject():
 
     def distance(self, other_object):
         ''' Compute the distance between the celestial object and an other one (other object)'''
-        d = np.sqrt((self.x - other_object.x)**2 + (self.y - other_object.y)**2)
+        d = math.sqrt((self.x - other_object.x)**2 + (self.y - other_object.y)**2)
         return d
 
     def getX(self):
