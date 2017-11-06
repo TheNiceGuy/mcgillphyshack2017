@@ -63,7 +63,7 @@ class CelestialObject():
         ''' Actualize the system data: position, speed and state '''
         #If the system has not been initialize, do the first step with Euler method
         if not self.init:
-            init = True
+            self.init = True
             #Change the speed with the acceleration using Euler method
             self.vx = self.vx + self.ax * dt
             self.vy = self.vy + self.ay * dt
