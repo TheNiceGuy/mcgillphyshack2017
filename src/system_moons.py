@@ -16,8 +16,8 @@ import time
 
 objectList={}
 #Definition des planètes du système solaire
-objectList.update({0:Planet(0 ,0    ,0              ,0          ,5.9736*10**24             ,90*6371008  , 40*10**-7,path1='pictures/planete1.png')})
-objectList.update({1:Planet(362600 , 0    ,0   ,1022          ,7.3*10**22             ,90*1737000 , 40*10**-7, path1='pictures/planete2.png')})
+objectList.update({0:Planet(0 ,0    ,0              ,0          ,5.9736*10**24             ,1008  , 40*10**-7,path1='pictures/planete1.png')})
+objectList.update({1:Planet(362600 , 0    ,0   ,1022          ,7.3*10**22             ,7000 , 40*10**-7, path1='pictures/planete2.png')})
 #objectList.update({0:Planet(0            ,0    ,0              ,0              ,1.5*10**24              ,0.00001*500*10**6 , 10*10**7)})
 #objectList.update({1:Planet( 4*10**9*math.cos(math.pi/4)      ,4*10**9*math.sin(math.pi/4)    ,1000*math.cos(math.pi/4)              ,1000*math.sin(math.pi/4)          ,1.5*10**22              ,0.00001*2*10**6  , 2*10**7)})
 #objectList.update({2:Planet( 5*10**9*math.cos(math.pi/6)      ,5*10**9*math.sin(math.pi/6)    ,1200*math.cos(math.pi/6)              ,1200*math.sin(math.pi/6)          ,1.6*10**22              ,0.00001*2.3*10**6  , 1*10**7)})
